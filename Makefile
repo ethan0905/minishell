@@ -14,16 +14,16 @@ NAME = minishell
 
 SRCS = ./main.c
 
-GCC = cc
-FLAGS = -Wextra -Wall -Werror -lreadline
-INCL = philo.h
+CC = clang
+FLAGS = -lreadline #-Wextra -Wall -Werror #-lreadline
+INCL = minishell.h
 
 OBJS = ${SRCS:.c=.o}
 
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	${GCC} ${FLAGS} ${OBJS} -I includes -o ${NAME}
+	${CC} ${FLAGS} ${OBJS} -I includes -o ${NAME}
 
 clean:
 	rm -f ${OBJS}
@@ -34,6 +34,6 @@ fclean:
 re:	fclean all
 
 %.o: %.c ${INCL}
-	${GCC} ${FLAGS} -c $< -o ${<:.c=.o}
+	${CC} ${FLAGS} -c $< -o ${<:.c=.o}
 
 .PHONY: all clean fclean re

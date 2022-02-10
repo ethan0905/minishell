@@ -14,11 +14,12 @@
 # define MINISHELL_H
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-# define PURPLE \033[0;35m
-# define YELLOW \033[0;33m
-# define END \033[0;m
+//# define PURPLE \033[0;35m
+// # define YELLOW \033[0;33m
+// # define END \033[0;m
 
 #endif
