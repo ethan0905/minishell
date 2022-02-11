@@ -15,7 +15,7 @@ NAME = minishell
 SRCS = ./main.c
 
 CC = clang
-FLAGS = -lreadline #-Wextra -Wall -Werror #-lreadline
+FLAGS = -lreadline #-Wextra -Wall -Werror
 INCL = minishell.h
 
 OBJS = ${SRCS:.c=.o}
