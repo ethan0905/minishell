@@ -17,9 +17,28 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <stdbool.h>
 
 //# define PURPLE \033[0;35m
 // # define YELLOW \033[0;33m
 // # define END \033[0;m
+
+typedef struct s_lst
+{
+	char *tmp; //help us for our tests
+	bool begin;
+	bool end;
+	char *infile;
+	char *outfile;
+	int	redirect[2][2];
+	char **cmd;
+	struct s_lst *next;
+}			t_lst;
+
+typedef struct s_data
+{
+	size_t	nb_cmd;
+	t_lst	*lst_cmd;
+}				t_data;
 
 #endif
