@@ -35,7 +35,6 @@ void	add_cmd(char *actual, t_data *data)
 {
 	t_lst *new;
 
-//	printf("addcmd: %p\n", actual);
 	new = create_cmd(actual);
 	if (!new)
 		return;
@@ -114,7 +113,6 @@ int	do_cmd(char *str)
 	{
 		printf("tmp: [%s]\n", actual);
 		add_cmd(actual, &data);
-		//free(actual); //checker if need to free or not
 		actual = NULL;
 		data.nb_cmd++;
 	}
