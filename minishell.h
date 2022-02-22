@@ -41,4 +41,17 @@ typedef struct s_data
 	t_lst	*lst_cmd;
 }				t_data;
 
+
+//UTILS
+int		ft_strlen(char *str);
+
+t_lst	*create_cmd(char *str);
+t_lst	*get_end(t_lst *lst_cmd);
+char	*remove_front_space(char *actual);
+char	*remove_end_space(char *actual);
+void	add_cmd(char *actual, t_data *data);
+void	add_char(char **actual, char c);
+void	free_lst(t_data *data);
+int		do_cmd(char *str);
+
 #endif

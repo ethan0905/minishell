@@ -4,6 +4,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+void	add_char(char **actual, char c);
+/*
 int	ft_strlen(char *str)
 {
 	int i = 0;
@@ -31,11 +33,68 @@ t_lst	*get_end(t_lst *lst_cmd)
 	return (lst_cmd);
 }
 
+char	*remove_front_space(char *actual)
+{
+	int i;
+	int count;
+	char *dest;
+
+	count = 0;
+	while (actual[count] == ' ')
+		count++;
+	i = 0;
+	while (actual[i + count] != '\0')
+		i++;
+	dest = (char *)malloc(sizeof(char) * (ft_strlen(actual) - count + 1));
+	if (!dest)
+		return (NULL);
+	i = 0;
+	while (actual[i + count] != '\0')
+	{
+		dest[i] = actual[i + count];
+		i++;
+	}
+	dest[i] = '\0';
+//	if (actual)
+//		free(actual);
+	return (dest);
+}
+
+char	*remove_end_space(char *actual)
+{
+	int i;
+	int count;
+	char *dest;
+
+	i = 0;
+	while (actual[i] != '\0')
+		i++;
+	count = 0;
+	while (i > 0 && actual[i - 1] == ' ')
+	{
+		i--;
+		count++;
+	}
+	dest = (char *)malloc(sizeof(char) * (ft_strlen(actual) - count + 1));
+	if (!dest)
+		return (NULL);
+	i = 0;
+	while (actual[i] != '\0' && i < (ft_strlen(actual) - count))
+	{
+		dest[i] = actual[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
 void	add_cmd(char *actual, t_data *data)
 {
 	t_lst *new;
 
-//	printf("addcmd: %p\n", actual);
+	actual = remove_front_space(actual);
+	actual = remove_end_space(actual);
+	printf("tmp : [%s]\n", actual);
 	new = create_cmd(actual);
 	if (!new)
 		return;
@@ -65,18 +124,22 @@ void	add_char(char **actual, char c)
 		free(*actual);
 	(*actual) = dest;
 }
-/*
+
 void	free_lst(t_data *data)
 {
+	t_lst *lst;
+
 	while (data->lst_cmd)
-}*/
-/*
-int	is_space(char *str, int i)
-{
-	while (str && str[i] && str[i] == ' ')
-		i++;
-	return (i);
-}*/
+	{
+		lst = data->lst_cmd;
+		if (data->lst_cmd->tmp)
+			free(data->lst_cmd->tmp);
+		data->lst_cmd = data->lst_cmd->next;
+		if (lst)
+			free(lst);
+		printf("FREE\n");
+	}
+}
 
 int	do_cmd(char *str)
 {
@@ -99,12 +162,10 @@ int	do_cmd(char *str)
 			double_quote = !double_quote;
 		if (str[i] == '|' && !simple_quote && !double_quote)
 		{
-			printf("tmp: [%s]\n", actual);
 			add_cmd(actual, &data);
 			actual = NULL;
 			data.nb_cmd++;
 			i++;
-//			i = is_space(str, i);
 		}
 		if (str[i] != '\0')
 			add_char(&actual, str[i]);
@@ -112,23 +173,22 @@ int	do_cmd(char *str)
 	}
 	if (actual)
 	{
-		printf("tmp: [%s]\n", actual);
 		add_cmd(actual, &data);
 		//free(actual); //checker if need to free or not
 		actual = NULL;
 		data.nb_cmd++;
 	}
-//	free_lst(&data);
+	free_lst(&data);
 	return (0);
 }
-
+*/
 int main()
 {
 	char *str;
 
 	while (1)
 	{
-		str = readline("\033[0;31m➜ \033[0;33m❖\033[0;m \033[0;96mℳιηι$ℎєᏝᏝ\033[0;m \033[0;33m❖ \033[0;m");
+		str = readline("\033[0;31m➜ \033[0;33m❖\033[0;m \033[0;96mminishell\033[0;m \033[0;33m❖ \033[0;m");
 		printf("str = %s\n", str);
 		do_cmd(str);
 		add_history(str);
