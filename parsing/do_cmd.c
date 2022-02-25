@@ -1,4 +1,20 @@
 #include "../minishell.h"
+/*
+int	is_redirection(char *red)
+{
+	if ()
+}*/
+
+char	*get_redirection(char *actual)
+{
+	int i;
+
+	i = 0;
+	while (actual[i] && (actual[i] != '<' || actual[i] != '>'))
+	{
+		i++;
+	}
+}
 
 void	add_cmd(char *actual, t_data *data)
 {
