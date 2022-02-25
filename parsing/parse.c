@@ -74,16 +74,6 @@ int	ignore_separator(char *str, int i)
 		return (1);
 	return (0);
 }
-/*
-int		is_sep(char *line, int i)
-{
-	if (i > 0 && line[i - 1] == '\\' && ft_strchr("<>|;", line[i]))
-		return (0);
-	else if (ft_strchr("<>|;", line[i]) && check_quotes(line) == 0)
-		return (1);
-	else
-		return (0);
-}*/
 
 void	add_char(char **actual, char c)
 {
@@ -146,7 +136,6 @@ t_token	*add_token(char *str, int *j)
 //			token->str[i++] = add_char(str[(*j)++]);
 
 	}
-	printf("token->str: [%s]\n", token->str);
 	return (token);
 }
 
