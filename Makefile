@@ -12,10 +12,12 @@
 
 NAME = minishell
 
-SRCS = ./main.c
+SRCS = ./main.c \
+	./parsing/check_quotes.c \
+	./parsing/parse.c
 
 CC = clang
-FLAGS = -lreadline -fsanitize=address #-Wextra -Wall -Werror
+FLAGS = -lreadline #-fsanitize=address #-Wextra -Wall -Werror
 INCL = minishell.h
 
 OBJS = ${SRCS:.c=.o}

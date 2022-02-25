@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   check_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esafar <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,20 +10,29 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int main(void)
+int	check_quotes(char *str)
 {
-	t_data data;
-	char *str;
+	int i;
+	bool simple_quote;
+	bool double_quote;
 
-	data.end = false;
-	while (data.end == false)
+	i = 0;
+	simple_quote = false;
+	double_quote = false;
+	while (str[i])
 	{
-		str = readline("\033[0;31m➜ \033[0;33m❖\033[0;m \033[0;96mminishell\033[0;m \033[0;33m❖ \033[0;m");
-		add_history(str);
-		parse(&data, str);
-		free(str);
+		if (str[i] == '\'')
+			simple_quote = !simple_quote;
+		else if (str[i] == '\"')
+		{
+			double_quote = !double_quote;
+		}
+		i++;
 	}
-	return (0);
+	if (simple_quote == false && double_quote == false)
+		return (1);
+	else
+		return (0);
 }
