@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 13:50:42 by achane-l          #+#    #+#             */
-/*   Updated: 2022/02/21 14:11:43 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/02/28 17:46:54 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./exec_files.h"
+#include "./utils.h"
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str && str[i])
-		i++;
-	return (i);
-}
-
-void	*ft_memcpy(void *dest, const void *src, size_t size)
+static void	*ft_memcpy(void *dest, const void *src, size_t size)
 {
 	size_t	i;
 
@@ -37,7 +27,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t size)
 	return (dest);
 }
 
-void	*ft_memmove(void *dest, const void *src, size_t size)
+static void	*ft_memmove(void *dest, const void *src, size_t size)
 {
 	unsigned char	*src2;
 
@@ -82,31 +72,4 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	str[i] = '\0';
 	return (str);
-}
-
-void	free_tab_str(char ***tab_str, int i)
-{
-	if (i < 0)
-	{
-		i = 0;
-		while ((*tab_str)[i])
-		{
-			if ((*tab_str)[i])
-				free((*tab_str)[i++]);
-			else
-				i++;
-		}
-	}
-	else
-	{
-		while (i >= 0)
-		{
-			if ((*tab_str)[i])
-				free((*tab_str)[i--]);
-			else
-				i--;
-		}
-	}
-	if (*tab_str)
-		free((*tab_str));
 }

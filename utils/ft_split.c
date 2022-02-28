@@ -6,11 +6,11 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 13:54:19 by achane-l          #+#    #+#             */
-/*   Updated: 2022/02/21 14:11:11 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/02/28 17:35:03 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./exec_files.h"
+#include "./utils.h"
 
 static int	count_words(char *line, char sep)
 {
@@ -62,6 +62,33 @@ static void	init_tab(char ***tab_str, int tab_size)
 		(*tab_str)[i] = NULL;
 		i++;
 	}
+}
+
+void	free_tab_str(char ***tab_str, int i)
+{
+	if (i < 0)
+	{
+		i = 0;
+		while ((*tab_str)[i])
+		{
+			if ((*tab_str)[i])
+				free((*tab_str)[i++]);
+			else
+				i++;
+		}
+	}
+	else
+	{
+		while (i >= 0)
+		{
+			if ((*tab_str)[i])
+				free((*tab_str)[i--]);
+			else
+				i--;
+		}
+	}
+	if (*tab_str)
+		free((*tab_str));
 }
 
 char	**ft_split(char *line, char sep)
