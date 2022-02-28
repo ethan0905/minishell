@@ -23,6 +23,14 @@
 // # define YELLOW \033[0;33m
 // # define END \033[0;m
 
+# define INPUT 		1	//"<"
+# define HEREDOC 	2	//"<<"
+# define TRUNC 		3	//">"
+# define APPEND 	4	//">>"
+# define PIPE 		5	//"|"
+# define CMD 		6	//"|"
+# define ARG 		7	//"|"
+
 typedef struct s_token
 {
 	char *str;

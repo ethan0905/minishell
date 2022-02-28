@@ -22,6 +22,21 @@ size_t	ft_strlen(char const *str)
 	return (i);
 }
 
+int	ft_strcmp(char *s1, char *s2)
+{
+	int i;
+
+	i = 0;
+	while (s1[i] != '\0' || s2[i] != '\0')
+	{
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		else
+			i++;
+	}
+	return (0);
+}
+
 char	*ft_strchr(const char *s, int c)
 {
 	char	*str;
@@ -136,7 +151,7 @@ t_token	*add_token(char *str, int *j)
 			(*j)++;
 		}
 	}
-	printf("token: [%s]\n", token->str);
+//	printf("token: [%s]\n", token->str);
 	return (token);
 }
 
@@ -154,6 +169,24 @@ void	free_lst(t_data *data)
 			free(token);
 		printf("FREE\n");
 	}
+}
+
+void	get_type(t_token *token, int sep)
+{
+	if (ft_strcmp(token->str, "<") == 0 && sep == 0)
+		token->type = INPUT;
+	else if (ft_strcmp(token->str, "<<") == 0 && sep == 0)
+		token->type = HEREDOC;
+	else if (ft_strcmp(token->str, ">") == 0 && sep == 0)
+		token->type = TRUNC;
+	else if (ft_strcmp(token->str, ">>") == 0 && sep == 0)
+		token->type = APPEND;
+	else if (ft_strcmp(token->str, "|") == 0 && sep == 0)
+		token->type = PIPE;
+	else if (token->prev == NULL || token->prev->type == PIPE) //temporaire
+		token->type = CMD;
+	else
+		token->type = ARG;
 }
 
 t_token *create_token_lst(char *str)
@@ -174,6 +207,7 @@ t_token *create_token_lst(char *str)
 		if (prev)
 			prev->next = next;
 		prev = next;
+		get_type(next, sep);
 		skip_space(str, &i);
 	}
 	if (next)
@@ -195,10 +229,22 @@ void	parse(t_data *data, char *str)
 //	}
 	printf("str : [%s]\n", str);
 	data->begin = create_token_lst(str);
+
+/*	token = data->begin;
+	printf("data->begin: %s\n", token->str);
+	while (token && token->next)
+	{
+		printf("token->str: [%s]\n", token->str);
+		printf("token->type: %d\n", token->type);
+		token = token->next;
+	}
+	printf("token->str: [%s]\n", token->str);
+	printf("token->type: %d\n", token->type);
+	while (token && token->prev)
+	{
+		printf("token precedent!\n");
+		printf("token->str: [%s]\n", token->str);
+		token = token->prev;
+	}*/
 	free_lst(data);
-//	while (data->begin && data->begin->next)
-//	{
-//		printf("token: [%s]\n", data->begin->str);
-//		data->begin = data->begin->next;
-//	}
 }
