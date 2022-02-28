@@ -45,22 +45,6 @@ typedef struct s_data
 	bool end;
 }			t_data;
 
-/*parsing*/
 void	parse(t_data *data, char *str);
-int	check_quotes(char *str);
-
-
-
-//UTILS
-int		ft_strlen(char *str);
-
-t_lst	*create_cmd(char *str);
-t_lst	*get_end(t_lst *lst_cmd);
-char	*remove_front_space(char *actual);
-char	*remove_end_space(char *actual);
-void	add_cmd(char *actual, t_data *data);
-void	add_char(char **actual, char c);
-void	free_lst(t_data *data);
-int		do_cmd(char *str);
 
 #endif
