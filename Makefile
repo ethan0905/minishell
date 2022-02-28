@@ -13,11 +13,16 @@
 NAME = minishell
 
 SRCS = ./main.c \
+<<<<<<< HEAD
 	./parsing/add_char.c \
 	./parsing/do_cmd.c \
 	./parsing/lst_utils.c \
 	./parsing/remove_space.c \
 	./utils/ft_strlen.c \
+=======
+	./parsing/check_quotes.c \
+	./parsing/parse.c
+>>>>>>> ethan
 
 CC = clang
 FLAGS = -lreadline #-fsanitize=address #-Wextra -Wall -Werror

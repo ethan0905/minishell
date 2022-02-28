@@ -23,23 +23,32 @@
 // # define YELLOW \033[0;33m
 // # define END \033[0;m
 
-typedef struct s_lst
+# define INPUT 		1	//"<"
+# define HEREDOC 	2	//"<<"
+# define TRUNC 		3	//">"
+# define APPEND 	4	//">>"
+# define PIPE 		5	//"|"
+# define CMD 		6	//"|"
+# define ARG 		7	//"|"
+
+typedef struct s_token
 {
-	char *tmp; //help us for our tests
-	bool begin;
-	bool end;
-	char *infile;
-	char *outfile;
-	int	redirect[2][2];
-	char **cmd;
-	struct s_lst *next;
-}			t_lst;
+	char *str;
+	int	type;
+	struct s_token	*prev;
+	struct s_token	*next;
+}			t_token;
 
 typedef struct s_data
 {
-	size_t	nb_cmd;
-	t_lst	*lst_cmd;
-}				t_data;
+	t_token *begin;
+	bool end;
+}			t_data;
+
+/*parsing*/
+void	parse(t_data *data, char *str);
+int	check_quotes(char *str);
+
 
 
 //UTILS

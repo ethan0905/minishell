@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -140,10 +141,26 @@ void	free_lst(t_data *data)
 		printf("FREE\n");
 	}
 }
+=======
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: esafar <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
+/*   Updated: 2022/02/08 19:05:33 by esafar           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	do_cmd(char *str)
+#include "minishell.h"
+>>>>>>> ethan
+
+int main(void)
 {
 	t_data data;
+<<<<<<< HEAD
 	char *actual = NULL;
 	int i = 0;
 	bool double_quote;
@@ -184,14 +201,21 @@ int	do_cmd(char *str)
 */
 int main()
 {
+=======
+>>>>>>> ethan
 	char *str;
 
-	while (1)
+	data.end = false;
+	while (data.end == false)
 	{
 		str = readline("\033[0;31m➜ \033[0;33m❖\033[0;m \033[0;96mminishell\033[0;m \033[0;33m❖ \033[0;m");
+<<<<<<< HEAD
 		printf("str = %s\n", str);
 		do_cmd(str);
+=======
+>>>>>>> ethan
 		add_history(str);
+		parse(&data, str);
 		free(str);
 	}
 	return (0);
