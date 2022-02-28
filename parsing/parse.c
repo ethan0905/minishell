@@ -17,7 +17,7 @@ size_t	ft_strlen(char const *str)
 	size_t	i;
 
 	i = 0;
-	while (str[i] != '\0')
+	while (str && str[i] != '\0')
 		i++;
 	return (i);
 }
@@ -37,7 +37,7 @@ char	*ft_strchr(const char *s, int c)
 	}
 	return (str);
 }
-
+/*
 char	*ft_strdup(char *src)
 {
 	size_t	i;
@@ -54,7 +54,7 @@ char	*ft_strdup(char *src)
 	}
 	dest[i] = '\0';
 	return (dest);
-}
+}*/
 
 void	skip_space(char *str, int *i)
 {
@@ -67,7 +67,10 @@ int	ignore_separator(char *str, int i)
 	if (str[i] && str[i] == '\\' && str[i+1] && str[i+1] == '|')
 		return (1);
 	else if (str[i] && str[i] == '\\' && str[i+1] && str[i+1] == '>')
-		return (1);
+	{
+		if (str[i+2] && str[i+2] == '>')
+			return (1);
+	}
 	else if (str[i] && str[i] == '\\' && str[i+1] && str[i+1] == '>' && str[i+2] && str[i+2] == '>')
 		return (1);
 	else if (str[i] && str[i] == '\\' && str[i+1] && str[i+1] == ';')
@@ -107,13 +110,16 @@ t_token	*add_token(char *str, int *j)
 	token = (t_token *)malloc(sizeof(t_token));
 	if(!token)
 		return (NULL);
-//	token->str = (char *)malloc(sizeof(char) * token_alloc(str, i)); //get the good alloc size
-	if (!token->str)
-		token->str = ft_strdup("");
+//	if (!token->str)
+//		token->str = ft_strdup("");
+	token->str = NULL;
 	while (str[*j] && (str[*j] != ' ' || c != ' '))
 	{
 		if (c == ' ' && (str[*j] == '\'' || str[*j] == '\"'))
-			c = str[(*j)++];
+		{
+			c = str[(*j)];
+			(*j)++;
+		}
 		else if (c != ' ' && str[*j] == c)
 		{
 			c = ' ';
@@ -121,22 +127,33 @@ t_token	*add_token(char *str, int *j)
 		}
 		else if (str[*j] == '\\' && (*j)++)
 		{
-			add_char(&token->str, str[(*j)++]);
-//			(*j)++;
+			add_char(&token->str, str[(*j)]);
+			(*j)++;
 		}
 		else
 		{
-			add_char(&token->str, str[(*j)++]);
-//			(*j)++;
+			add_char(&token->str, str[(*j)]);
+			(*j)++;
 		}
-//		printf("addchar: [%s]\n", token->str);
-//		else if (str[*j] == '\\' && (*j)++)
-//			token->str[i++] = add_char(str[(*j)++]);
-//		else
-//			token->str[i++] = add_char(str[(*j)++]);
-
 	}
+	printf("token: [%s]\n", token->str);
 	return (token);
+}
+
+void	free_lst(t_data *data)
+{
+	t_token *token;
+
+	while (data->begin)
+	{
+		token = data->begin;
+		if (data->begin->str)
+			free(data->begin->str);
+		data->begin = data->begin->next;
+		if (token)
+			free(token);
+		printf("FREE\n");
+	}
 }
 
 t_token *create_token_lst(char *str)
@@ -159,7 +176,10 @@ t_token *create_token_lst(char *str)
 		prev = next;
 		skip_space(str, &i);
 	}
-
+	if (next)
+		next->next = NULL;
+	while (next && next->prev)
+		next = next->prev;
 	return (next);
 }
 
@@ -167,17 +187,18 @@ void	parse(t_data *data, char *str)
 {
 	t_token *token;
 
-	if (check_quotes(str) == 0)
-	{
-		printf("Error: syntax error with quotes.\n");
+//	if (check_quotes(str) == 0)
+//	{
+//		printf("Error: syntax error with quotes.\n");
 //		free(str);
-		return ;
-	}
+//		return ;
+//	}
 	printf("str : [%s]\n", str);
 	data->begin = create_token_lst(str);
-	while (data->begin && data->begin->next)
-	{
-		printf("token: [%s]\n", data->begin->str);
-		data->begin = data->begin->next;
-	}
+	free_lst(data);
+//	while (data->begin && data->begin->next)
+//	{
+//		printf("token: [%s]\n", data->begin->str);
+//		data->begin = data->begin->next;
+//	}
 }
