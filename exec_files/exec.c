@@ -17,5 +17,5 @@ int	exec(t_token *token, char **env)
 	t_cmd	*cmds;
 	int		fd[2];
 
-	init_cmds(token);
+	init_cmds(token, fd);
 }

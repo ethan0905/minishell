@@ -14,9 +14,11 @@ NAME = minishell
 
 SRCS = ./main.c \
 	./parsing/check_quotes.c \
-	./parsing/parse.c
+	./parsing/parse.c \
+	./utils/ft_strlen.c \
+	./utils/ft_strcmp.c \
 
-CC = clang
+CC = cc
 FLAGS = -lreadline #-fsanitize=address #-Wextra -Wall -Werror
 INCL = minishell.h
 
