@@ -12,6 +12,7 @@
 
 #include "../minishell.h"
 #include <unistd.h>
+
 void	skip_space(char *str, int *i)
 {
 	while (str[*i] && (str[*i] == ' ' || str[*i] == '\n' || str[*i] == '\r' || str[*i] == '\f' || str[*i] == '\t' || str[*i] == '\v'))
@@ -160,7 +161,7 @@ t_token *create_token_lst(char *str)
 
 void	parse(t_data *data, char *str)
 {
-	t_token *token;
+//	t_token *token;
 
 //	if (check_quotes(str) == 0)
 //	{

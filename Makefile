@@ -19,7 +19,8 @@ SRCS = ./main.c \
 	./utils/ft_strcmp.c \
 
 CC = cc
-FLAGS = -lreadline #-fsanitize=address #-Wextra -Wall -Werror
+R_FLAG = -lreadline
+FLAGS = -Wextra -Wall -Werror
 INCL = minishell.h
 
 OBJS = ${SRCS:.c=.o}
@@ -27,7 +28,7 @@ OBJS = ${SRCS:.c=.o}
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	${CC} ${FLAGS} ${OBJS} -I includes -o ${NAME}
+	${CC} ${R_FLAG} ${FLAGS} ${OBJS} -I includes -o ${NAME}
 
 clean:
 	rm -f ${OBJS}
