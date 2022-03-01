@@ -6,7 +6,7 @@
 #    By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 17:04:03 by esafar            #+#    #+#              #
-#    Updated: 2022/02/28 17:53:42 by achane-l         ###   ########.fr        #
+#    Updated: 2022/03/01 16:53:17 by achane-l         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCS = ./main.c \
 	./parsing/check_quotes.c \
 	./parsing/parse.c
 
-CC = clang
+CC = cc
 FLAGS = -lreadline #-fsanitize=address #-Wextra -Wall -Werror
 INCL = minishell.h
 

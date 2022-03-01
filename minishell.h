@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 18:49:27 by esafar            #+#    #+#             */
-/*   Updated: 2022/02/28 17:52:55 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/01 17:06:02 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <readline/history.h>
 #include <stdbool.h>
 #include "./utils/utils.h"
+#include "./utils/utils.h"
+#include "./exec_files/exec_files.h"
 //# define PURPLE \033[0;35m
 // # define YELLOW \033[0;33m
 // # define END \033[0;m
