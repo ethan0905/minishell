@@ -43,6 +43,7 @@ int	check_env_val(char *src, char *find);
 char	**init_paths(char **env);
 int	check_path_cmd(t_cmd *my_cmd, char **paths);
 // process
+t_cmd	*init_cmds(t_token *token, int *fds);
 //utils.c
 int	ft_strlen(char *str);
 void	*ft_memcpy(void *dest, const void *src, size_t size);
