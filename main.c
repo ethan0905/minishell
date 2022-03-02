@@ -12,11 +12,14 @@
 
 #include "minishell.h"
 
-int main()
+int main(int ac, char **av, char **env)
 {
 	t_data data;
 	char *str;
 
+	(void)ac;
+	(void)av;
+	data.env = env;
 	while (1)
 	{
 		str = readline("\033[0;31m➜ \033[0;33m❖\033[0;m \033[0;96mminishell\033[0;m \033[0;33m❖ \033[0;m");

@@ -43,6 +43,7 @@ typedef struct s_token
 typedef struct s_data
 {
 	t_token *begin;
+	char **env;
 	bool end;
 }			t_data;
 

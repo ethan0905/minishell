@@ -161,7 +161,7 @@ t_token *create_token_lst(char *str)
 
 void	parse(t_data *data, char *str)
 {
-//	t_token *token;
+	t_token *token;
 
 //	if (check_quotes(str) == 0)
 //	{
@@ -172,7 +172,13 @@ void	parse(t_data *data, char *str)
 	printf("str : [%s]\n", str);
 	data->begin = create_token_lst(str);
 
-/*	token = data->begin;
+/*	int i = 0;
+	while (data->env[i])
+	{
+		printf("%s\n", data->env[i]);
+		i++;
+	}*/
+	token = data->begin;
 	printf("data->begin: %s\n", token->str);
 	while (token && token->next)
 	{
@@ -182,11 +188,5 @@ void	parse(t_data *data, char *str)
 	}
 	printf("token->str: [%s]\n", token->str);
 	printf("token->type: %d\n", token->type);
-	while (token && token->prev)
-	{
-		printf("token precedent!\n");
-		printf("token->str: [%s]\n", token->str);
-		token = token->prev;
-	}*/
 	free_lst(data);
 }
