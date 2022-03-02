@@ -17,6 +17,7 @@ SRCS = ./main.c \
 	./parsing/parse.c \
 	./utils/ft_strlen.c \
 	./utils/ft_strcmp.c \
+	./utils/ft_strdup.c \
 
 CC = cc
 R_FLAG = -lreadline

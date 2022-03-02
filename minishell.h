@@ -31,6 +31,7 @@
 # define PIPE 		5	//"|"
 # define CMD 		6	//"|"
 # define ARG 		7	//"|"
+# define DOLLAR 	8	//"$"
 
 typedef struct s_token
 {

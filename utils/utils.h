@@ -15,6 +15,7 @@
 #include "../minishell.h"
 
 int	ft_strlen(char *str);
+char	*ft_strdup(char *str);
 void	free_tab_str(char ***tab_str, int i);
 char	**ft_split(char *line, char sep);
 int	ft_strcmp(char *s1, char *s2);

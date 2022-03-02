@@ -32,6 +32,8 @@ int	ignore_separator(char *str, int i)
 		return (1);
 	else if (str[i] && str[i] == '\\' && str[i+1] && str[i+1] == ';')
 		return (1);
+	else if (str[i] && str[i] == '\\' && str[i+1] && str[i+1] == '$')
+		return (1);
 	return (0);
 }
 
@@ -67,8 +69,6 @@ t_token	*add_token(char *str, int *j)
 	token = (t_token *)malloc(sizeof(t_token));
 	if(!token)
 		return (NULL);
-//	if (!token->str)
-//		token->str = ft_strdup("");
 	token->str = NULL;
 	while (str[*j] && (str[*j] != ' ' || c != ' '))
 	{
@@ -93,7 +93,6 @@ t_token	*add_token(char *str, int *j)
 			(*j)++;
 		}
 	}
-//	printf("token: [%s]\n", token->str);
 	return (token);
 }
 
@@ -125,6 +124,8 @@ void	get_type(t_token *token, int sep)
 		token->type = APPEND;
 	else if (ft_strcmp(token->str, "|") == 0 && sep == 0)
 		token->type = PIPE;
+	else if (ft_strcmp(token->str, "$") == 0 && sep == 0)
+		token->type = DOLLAR;
 	else if (token->prev == NULL || token->prev->type == PIPE) //temporaire
 		token->type = CMD;
 	else
@@ -159,10 +160,48 @@ t_token *create_token_lst(char *str)
 	return (next);
 }
 
+int	check_env(t_token *token, int i)
+{
+	char *dest;
+	char *line;
+
+	dest = NULL;
+	line = NULL;
+	i++;
+	while(token->str && token->str[i] != '\0' && token->str[i] != ' ')
+		add_char(&dest, token->str[i++]);
+//	printf("dest: [%s]\n", dest);
+	line = getenv(dest);
+	free(token->str);
+	token->str = ft_strdup(line);
+	printf("token->str strdup :: %s\n", token->str);
+	return (i);
+}
+
+void	expand_token(t_data *data)
+{
+	t_token *token;
+	int i = 0;
+
+	token = data->begin;
+	while (token)
+	{
+		i = 0;
+		while (token->str && token->str[i])
+		{
+			if (token->str[i] == '$')
+			{
+				i = check_env(token, i);
+			}
+			i++;
+		}
+		token = token->next;
+	}
+}
+
 void	parse(t_data *data, char *str)
 {
 	t_token *token;
-
 //	if (check_quotes(str) == 0)
 //	{
 //		printf("Error: syntax error with quotes.\n");
@@ -178,8 +217,10 @@ void	parse(t_data *data, char *str)
 		printf("%s\n", data->env[i]);
 		i++;
 	}*/
+//	token = data->begin;
+	expand_token(data);
 	token = data->begin;
-	printf("data->begin: %s\n", token->str);
+//	printf("data->begin: %s\n", token->str);
 	while (token && token->next)
 	{
 		printf("token->str: [%s]\n", token->str);
