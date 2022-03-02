@@ -170,11 +170,12 @@ int	check_env(t_token *token, int i)
 	i++;
 	while(token->str && token->str[i] != '\0' && token->str[i] != ' ')
 		add_char(&dest, token->str[i++]);
-//	printf("dest: [%s]\n", dest);
 	line = getenv(dest);
 	free(token->str);
-	token->str = ft_strdup(line);
-	printf("token->str strdup :: %s\n", token->str);
+	if (line)
+		token->str = ft_strdup(line);
+	else
+		token->str = ft_strdup("");
 	return (i);
 }
 
