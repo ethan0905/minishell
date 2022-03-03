@@ -82,7 +82,7 @@ t_token	*add_token(char *str, int *j)
 			c = ' ';
 			(*j)++;
 		}
-		else if (str[*j] == '\\' && (*j)++)
+		else if (str[*j] == '\\' && str[*j + 1] && str[*j + 1] != '$' && (*j)++)
 		{
 			add_char(&token->str, str[(*j)]);
 			(*j)++;
@@ -158,46 +158,6 @@ t_token *create_token_lst(char *str)
 	while (next && next->prev)
 		next = next->prev;
 	return (next);
-}
-
-int	check_env(t_token *token, int i)
-{
-	char *dest;
-	char *line;
-
-	dest = NULL;
-	line = NULL;
-	i++;
-	while(token->str && token->str[i] != '\0' && token->str[i] != ' ')
-		add_char(&dest, token->str[i++]);
-	line = getenv(dest);
-	free(token->str);
-	if (line)
-		token->str = ft_strdup(line);
-	else
-		token->str = ft_strdup("");
-	return (i);
-}
-
-void	expand_token(t_data *data)
-{
-	t_token *token;
-	int i = 0;
-
-	token = data->begin;
-	while (token)
-	{
-		i = 0;
-		while (token->str && token->str[i])
-		{
-			if (token->str[i] == '$')
-			{
-				i = check_env(token, i);
-			}
-			i++;
-		}
-		token = token->next;
-	}
 }
 
 void	parse(t_data *data, char *str)

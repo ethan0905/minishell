@@ -50,4 +50,10 @@ typedef struct s_data
 
 void	parse(t_data *data, char *str);
 
+//expands
+void	expand_token(t_data *data);
+int		check_env(t_token *token, int i);
+
+void	add_char(char **actual, char c);
+
 #endif
