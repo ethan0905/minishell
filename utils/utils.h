@@ -20,5 +20,6 @@ void	free_tab_str(char ***tab_str, int i);
 char	**ft_split(char *line, char sep);
 int	ft_strcmp(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);
+char	*ft_substr(char *s, int start, int len);
 char	*ft_strjoin(char *s1, char *s2);
 #endif

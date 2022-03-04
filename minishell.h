@@ -46,6 +46,7 @@ typedef struct s_data
 	t_token *begin;
 	char **env;
 	bool end;
+	int	error_code;
 }			t_data;
 
 void	parse(t_data *data, char *str);
