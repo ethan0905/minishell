@@ -20,6 +20,7 @@ SRCS = ./main.c \
 	./utils/ft_strcmp.c \
 	./utils/ft_strdup.c \
 	./utils/ft_strjoin.c \
+	./utils/ft_itoa.c \
 
 CC = cc
 R_FLAG = -lreadline

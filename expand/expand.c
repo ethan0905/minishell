@@ -105,7 +105,7 @@ void	get_str_before_dollar(t_token *token, t_expand *expand, int i)
 //	return (expand_or_not);
 }
 
-void	get_expand(t_token *token, t_expand *expand, int i)
+void	get_expand(t_data *data, t_token *token, t_expand *expand, int i)
 {
 	//2: je recup ce qui est apres mon $ dans dest
 	i++;
@@ -115,7 +115,10 @@ void	get_expand(t_token *token, t_expand *expand, int i)
 		i++;
 	}
 	//3: je recup mon pointeur sur la bonne line dans env
-	expand->expand = getenv(expand->dest);
+	if (ft_strcmp(expand->dest, "$"))
+		expand->expand = ft_itoa(data->exit_code); //get exit code here
+	else
+		expand->expand = getenv(expand->dest);
 //	return (expand);
 }
 
@@ -138,7 +141,7 @@ void	get_line(t_expand *expand)
 //	return (line);
 }
 
-int	check_env(t_token *token, int i)
+int	check_env(t_data *data, t_token *token, int i)
 {
 	t_expand expand;
 
@@ -147,7 +150,7 @@ int	check_env(t_token *token, int i)
 	expand.line = NULL;
 	expand.expand_or_not = 1;
 	get_str_before_dollar(token, &expand, i);
-	get_expand(token, &expand, i);
+	get_expand(data, token, &expand, i);
 	get_line(&expand);
 	free(token->str);
 	if (expand.line)
@@ -170,7 +173,7 @@ void	expand_token(t_data *data)
 		{
 			if (token->str[i] == '$')
 			{
-				i = check_env(token, i);
+				i = check_env(data, token, i);
 			}
 			i++;
 		}

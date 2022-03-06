@@ -46,7 +46,7 @@ typedef struct s_data
 	t_token *begin;
 	char **env;
 	bool end;
-	int	error_code;
+	int	exit_code;
 }			t_data;
 
 typedef struct s_expand
@@ -61,7 +61,7 @@ void	parse(t_data *data, char *str);
 
 //expands
 void	expand_token(t_data *data);
-int		check_env(t_token *token, int i);
+int		check_env(t_data *data, t_token *token, int i);
 
 void	add_char(char **actual, char c);
 
