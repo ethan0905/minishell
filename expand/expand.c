@@ -47,27 +47,19 @@ int	check_env(t_token *token, int i)
 	expand = getenv(dest);
 	printf("EXPAND: [%s]\n", expand);
 	
-	//4: check si je dois expand ma str ou non
-/*	j = 0;
-	while (token->str[j] && token->str[j] != '$')
-		j++;
-	if (j > 0 && token->str[j-1] == '\\')
-		expand_or_not = 0;
-	else if (j > 0 && token->str[j-1] != '\\')
-		expand_or_not = 1;*/
 	printf("EXPAND OR NOT? %d\n", expand_or_not);
 
 	//5: j'exec
 	if (expand_or_not == 0)
-	{
+	{	
 		line = ft_strjoin(line, dest);
 		printf("line equals: [%s]\n", line);
 	}
 	else
 	{
-		if (!line)
+		if (!line && expand)
 			line = ft_strdup(expand);
-		else
+		else if (line && expand)
 			line = ft_strjoin(line, expand);
 		printf("line equals: [%s]\n", line);
 	}

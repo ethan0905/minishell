@@ -169,7 +169,9 @@ void	parse(t_data *data, char *str)
 //		free(str);
 //		return ;
 //	}
-	printf("str : [%s]\n", str);
+//	printf("str : [%s]\n", str);
+	if (ft_strlen(str) == 0)
+		return ;
 	data->begin = create_token_lst(str);
 
 /*	int i = 0;
