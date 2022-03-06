@@ -12,20 +12,10 @@
 
 #include "../minishell.h"
 
-int	check_env(t_token *token, int i)
+int	get_str_before_dollar(t_token *token, char **line, int i, int expand_or_not)
 {
-	char *dest;
-	char *expand;
-	char *line;
 	int j;
-	int expand_or_not;
 
-	dest = NULL;
-	expand = NULL;
-	line = NULL;
-	expand_or_not = 1;
-	printf("TOKEN->STR = [%s]\n", token->str);
-	//1 : je recup ce qui est avant mon $ dans line
 	j = 0;
 	while (j < i && token->str[j])
 	{
@@ -34,8 +24,27 @@ int	check_env(t_token *token, int i)
 			expand_or_not = 0;
 			j++;
 		}
-		add_char(&line, token->str[j++]);
+		add_char(line, token->str[j++]);
 	}
+	return (expand_or_not);
+}
+
+int	check_env(t_token *token, int i)
+{
+	char *dest;
+	char *expand;
+	char *line;
+//	int j;
+	int expand_or_not;
+
+	dest = NULL;
+	expand = NULL;
+	line = NULL;
+	expand_or_not = 1;
+	printf("TOKEN->STR = [%s]\n", token->str);
+	//1 : je recup ce qui est avant mon $ dans line
+//	j = 0;i
+	expand_or_not = get_str_before_dollar(token, &line, i, expand_or_not);
 	printf("line equals: [%s]\n", line);
 	//2: je recup ce qui est apres mon $ dans line
 	i++;
