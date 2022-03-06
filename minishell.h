@@ -49,6 +49,14 @@ typedef struct s_data
 	int	error_code;
 }			t_data;
 
+typedef struct s_expand
+{
+	char	*line;
+	char	*dest;
+	char	*expand;
+	int		expand_or_not;
+}			t_expand;
+
 void	parse(t_data *data, char *str);
 
 //expands
