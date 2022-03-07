@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   ft_strcopy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/10 18:49:27 by esafar            #+#    #+#             */
-/*   Updated: 2022/03/04 14:09:59 by achane-l         ###   ########.fr       */
+/*   Created: 2022/03/04 14:02:53 by achane-l          #+#    #+#             */
+/*   Updated: 2022/03/04 14:11:25 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
-#include "../minishell.h"
+#include "./utils.h"
 
-int	ft_strlen(char *str);
-void	free_tab_str(char ***tab_str, int i);
-char	**ft_split(char *line, char sep);
-int	ft_strcmp(char *s1, char *s2);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strcopy(char *src);
-#endif
+char	*ft_strcopy(char *src)
+{
+	char	*dest;
+	int		i;
+
+	if (src == NULL)
+		return (NULL);
+	dest = malloc(ft_strlen(src) + 1);
+	if (dest == NULL)
+		return (NULL);
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = 0;
+	return (dest);
+}
