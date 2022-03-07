@@ -162,7 +162,7 @@ t_token *create_token_lst(char *str)
 
 void	parse(t_data *data, char *str)
 {
-	t_token *token;
+//	t_token *token;
 
 	signal(SIGINT, &control_c);
 	signal(SIGQUIT, &control_d);
@@ -178,6 +178,7 @@ void	parse(t_data *data, char *str)
 		return ;
 	data->begin = create_token_lst(str);
 
+//	printf("begin: ")
 /*	int i = 0;
 	while (data->env[i])
 	{
@@ -186,17 +187,17 @@ void	parse(t_data *data, char *str)
 	}*/
 //	token = data->begin;
 	expand_token(data);
-	token = data->begin;
+//	token = data->begin;
 //	printf("data->begin: %s\n", token->str);
-	while (token && token->next)
-	{
-		printf("token->str: [%s]\n", token->str);
-		printf("token->type: %d\n", token->type);
-		token = token->next;
-	}
-	printf("token->str: [%s]\n", token->str);
-	printf("token->type: %d\n", token->type);
+//	while (token && token->next)
+//	{
+//		printf("token->str: [%s]\n", token->str);
+//		printf("token->type: %d\n", token->type);
+//		token = token->next;
+//	}
+//	printf("token->str: [%s]\n", token->str);
+//	printf("token->type: %d\n", token->type);
 //	ft_pwd();
 //	ft_env(data->env);
-	free_lst(data);
+//	free_lst(data);
 }

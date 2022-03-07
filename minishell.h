@@ -22,6 +22,7 @@
 #include <signal.h>
 #include "./utils/utils.h"
 #include "./built-in/built-in.h"
+
 # include <limits.h>
 
 //# define PURPLE \033[0;35m
@@ -45,6 +46,7 @@ typedef struct s_token
 	struct s_token	*next;
 }			t_token;
 
+#include "./exec_files/exec_files.h"
 typedef struct s_data
 {
 	t_token *begin;

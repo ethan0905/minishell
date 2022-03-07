@@ -21,9 +21,16 @@ SRCS = ./main.c \
 	./utils/ft_strcmp.c \
 	./utils/ft_strdup.c \
 	./utils/ft_strjoin.c \
+	./utils/ft_split.c \
+	./utils/ft_strcopy.c \
 	./utils/ft_itoa.c \
 	./built-in/ft_pwd.c \
 	./built-in/ft_env.c \
+	./exec_files/exec.c \
+	./exec_files/get_data_cmds.c \
+	./exec_files/init_cmds.c \
+	./exec_files/paths.c \
+	./exec_files/process.c \
 
 CC = cc
 R_FLAG = -lreadline

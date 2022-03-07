@@ -18,6 +18,7 @@ int	exec(t_cmd *cmds, char **env)
 	int		fd[2];
 	int		pid;
 
+
 	first = cmds;
 	while (cmds)
 	{

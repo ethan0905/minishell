@@ -42,6 +42,7 @@ int	check_env_val(char *src, char *find);
 char	**init_paths(char **env);
 int	check_path_cmd(t_cmd *my_cmd, char **paths);
 // exec.c
+int	exec(t_cmd *cmds, char **env);
 
 //process
 void	child_process(t_cmd *cmds, t_cmd *first, int *fd,char **env);
