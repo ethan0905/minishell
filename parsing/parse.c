@@ -163,6 +163,9 @@ t_token *create_token_lst(char *str)
 void	parse(t_data *data, char *str)
 {
 	t_token *token;
+
+	signal(SIGINT, &control_c);
+	signal(SIGQUIT, &control_d);
 //	if (check_quotes(str) == 0)
 //	{
 //		printf("Error: syntax error with quotes.\n");

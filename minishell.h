@@ -19,6 +19,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdbool.h>
+#include <signal.h>
 #include "./utils/utils.h"
 //# define PURPLE \033[0;35m
 // # define YELLOW \033[0;33m
@@ -58,6 +59,8 @@ typedef struct s_expand
 }			t_expand;
 
 void	parse(t_data *data, char *str);
+void	control_c(int code);
+void	control_d(int code);
 
 //expands
 void	expand_token(t_data *data);
