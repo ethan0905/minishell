@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/02/28 17:45:18 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/07 15:49:42 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ void	add_char(char **actual, char c)
 t_token	*add_token(char *str, int *j)
 {
 	char	c;
-	int		i;
+	//int		i;
 	t_token *token;
 
-	i = 0;
+	//i = 0;
 	c = ' ';
 	token = (t_token *)malloc(sizeof(t_token));
 	if(!token)
