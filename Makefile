@@ -6,7 +6,7 @@
 #    By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 17:04:03 by esafar            #+#    #+#              #
-#    Updated: 2022/03/01 16:53:17 by achane-l         ###   ########.fr        #
+#    Updated: 2022/03/07 16:04:02 by achane-l         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,16 @@ SRCS = ./main.c \
 	./utils/ft_strcmp.c \
 	./utils/ft_strdup.c \
 	./utils/ft_strjoin.c \
+	./utils/ft_split.c \
+	./utils/ft_strcopy.c \
 	./utils/ft_itoa.c \
 	./built-in/ft_pwd.c \
 	./built-in/ft_env.c \
+	./exec_files/exec.c \
+	./exec_files/get_data_cmds.c \
+	./exec_files/init_cmds.c \
+	./exec_files/paths.c \
+	./exec_files/process.c \
 
 CC = cc
 R_FLAG = -lreadline
@@ -35,7 +42,7 @@ OBJS = ${SRCS:.c=.o}
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	${CC} ${R_FLAG} ${FLAGS} ${OBJS} -I includes -o ${NAME}
+	${CC} ${FLAGS} ${OBJS} -I includes -o ${NAME} ${R_FLAG}
 
 clean:
 	rm -f ${OBJS}

@@ -12,13 +12,13 @@
 
 #include "./exec_files.h"
 
-int	exec(t_cmd *cmds, char **env)
+int	exec(t_data *data)
 {
-	t_cmd	*first;
+	t_cmd	*cmds;
 	int		fd[2];
-	int		pid;
+//	int		pid;
 
-	first = cmds;
+	cmds = data->cmd;
 	while (cmds)
 	{
 		if (cmds->skip_cmd)
@@ -27,18 +27,18 @@ int	exec(t_cmd *cmds, char **env)
 		{
 			if (pipe(fd) == -1)
 				return (-1);
-			pid = fork();
-			if (pid < 0)
+			data->signal.pid = fork();
+			if (data->signal.pid < 0)
 				return (-1);
-			else if (pid == 0)
-				child_process(cmds, first, fd, env);
+			else if (data->signal.pid == 0)
+				child_process(cmds, data->cmd, fd, data->env);
 			else
 				parent_process(cmds, fd);
 			cmds = cmds->next;
 		}
 	}
-	wait_all_and_finish(first);
-	free_cmd(&first);
+	wait_all_and_finish(data->cmd);
+	free_cmd(&data->cmd);
 	return (1);
 }
 

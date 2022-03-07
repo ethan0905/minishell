@@ -82,7 +82,6 @@ void	free_cmd(t_cmd **cmds)
 
 	while (*cmds)
 	{
-		printf("free\n");
 		cmd = *cmds;
 		free_tab_str(&cmd->cmd_param, -1);
 		(*cmds) = (*cmds)->next;
