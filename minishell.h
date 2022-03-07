@@ -46,14 +46,23 @@ typedef struct s_token
 	struct s_token	*next;
 }			t_token;
 
-#include "./exec_files/exec_files.h"
+typedef struct s_signal
+{
+	pid_t pid;
+}			t_signal;
+
+
 typedef struct s_data
 {
 	t_token *begin;
+	t_signal signal;
 	char **env;
+	struct s_cmd	*cmd;
 	bool end;
 	int	exit_code;
 }			t_data;
+
+#include "./exec_files/exec_files.h"
 
 typedef struct s_expand
 {
