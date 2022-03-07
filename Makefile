@@ -23,6 +23,7 @@ SRCS = ./main.c \
 	./utils/ft_strjoin.c \
 	./utils/ft_itoa.c \
 	./built-in/ft_pwd.c \
+	./built-in/ft_env.c \
 
 CC = cc
 R_FLAG = -lreadline

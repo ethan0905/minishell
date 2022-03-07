@@ -197,5 +197,6 @@ void	parse(t_data *data, char *str)
 	printf("token->str: [%s]\n", token->str);
 	printf("token->type: %d\n", token->type);
 //	ft_pwd();
+	ft_env(data->env);
 	free_lst(data);
 }

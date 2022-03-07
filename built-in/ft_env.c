@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built-in.h                                         :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/28 14:56:36 by achane-l          #+#    #+#             */
-/*   Updated: 2022/02/28 14:58:50 by achane-l         ###   ########.fr       */
+/*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
+/*   Updated: 2022/02/28 17:45:18 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "built-in.h"
 
-//# define PURPLE \033[0;35m
-// # define YELLOW \033[0;33m
-// # define END \033[0;m
+int	ft_env(char **env)
+{
+	int i;
+	int j;
 
-#include "../minishell.h"
-
-int	ft_pwd(void);
-int	ft_env(char **env);
-
-#endif
+	i = 0;
+	while (env[i])
+	{
+		j = 0;
+		while (env[i][j])
+		{
+			printf("%c", env[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+	return (0);
+}
