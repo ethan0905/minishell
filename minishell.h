@@ -51,7 +51,6 @@ typedef struct s_signal
 	pid_t pid;
 }			t_signal;
 
-
 typedef struct s_data
 {
 	t_token *begin;
