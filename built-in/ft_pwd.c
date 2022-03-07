@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built-in.h                                         :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/28 14:56:36 by achane-l          #+#    #+#             */
-/*   Updated: 2022/02/28 14:58:50 by achane-l         ###   ########.fr       */
+/*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
+/*   Updated: 2022/02/28 17:45:18 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
-
-//# define PURPLE \033[0;35m
-// # define YELLOW \033[0;33m
-// # define END \033[0;m
-
+//#include "built-in.h"
 #include "../minishell.h"
 
-int	ft_pwd(void);
+int	ft_pwd(void)
+{
+	char cwd[PATH_MAX];
 
-#endif
+	printf("pathmax = %d\n", PATH_MAX);
+	if (getcwd(cwd, PATH_MAX))
+	{
+		printf("cwd: [%s]\n", cwd);
+		return (1);
+	}
+	else
+		return (-1);
+}

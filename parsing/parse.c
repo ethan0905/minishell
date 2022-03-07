@@ -166,6 +166,7 @@ void	parse(t_data *data, char *str)
 
 	signal(SIGINT, &control_c);
 	signal(SIGQUIT, &control_d);
+
 //	if (check_quotes(str) == 0)
 //	{
 //		printf("Error: syntax error with quotes.\n");
@@ -195,5 +196,6 @@ void	parse(t_data *data, char *str)
 	}
 	printf("token->str: [%s]\n", token->str);
 	printf("token->type: %d\n", token->type);
+//	ft_pwd();
 	free_lst(data);
 }
