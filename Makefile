@@ -6,7 +6,7 @@
 #    By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 17:04:03 by esafar            #+#    #+#              #
-#    Updated: 2022/03/01 16:53:17 by achane-l         ###   ########.fr        #
+#    Updated: 2022/03/07 16:04:02 by achane-l         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ OBJS = ${SRCS:.c=.o}
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	${CC} ${R_FLAG} ${FLAGS} ${OBJS} -I includes -o ${NAME}
+	${CC} ${FLAGS} ${OBJS} -I includes -o ${NAME} ${R_FLAG}
 
 clean:
 	rm -f ${OBJS}
