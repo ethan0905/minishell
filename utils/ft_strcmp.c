@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/28 17:36:33 by achane-l          #+#    #+#             */
-/*   Updated: 2022/02/28 17:36:51 by achane-l         ###   ########.fr       */
+/*   Created: 2022/02/28 17:43:45 by achane-l          #+#    #+#             */
+/*   Updated: 2022/02/28 17:43:58 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./utils.h"
 
-int	ft_strlen(char *str)
+int	ft_strcmp(char *s1, char *s2)
 {
-	int i = 0;
+	int i;
 
-	while (str && str[i])
-		i++;
-	return (i);
+	i = 0;
+	while (s1[i] != '\0' || s2[i] != '\0')
+	{
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		else
+			i++;
+	}
+	return (0);
 }

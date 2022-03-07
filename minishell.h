@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esafar <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 18:49:27 by esafar            #+#    #+#             */
-/*   Updated: 2022/02/10 18:49:28 by esafar           ###   ########.fr       */
+/*   Updated: 2022/03/01 17:14:03 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdbool.h>
+#include <signal.h>
+#include "./utils/utils.h"
+#include "./built-in/built-in.h"
+# include <limits.h>
 
 //# define PURPLE \033[0;35m
 // # define YELLOW \033[0;33m
@@ -30,6 +35,7 @@
 # define PIPE 		5	//"|"
 # define CMD 		6	//"|"
 # define ARG 		7	//"|"
+# define DOLLAR 	8	//"$"
 
 typedef struct s_token
 {
@@ -42,25 +48,27 @@ typedef struct s_token
 typedef struct s_data
 {
 	t_token *begin;
+	char **env;
 	bool end;
+	int	exit_code;
 }			t_data;
 
-/*parsing*/
+typedef struct s_expand
+{
+	char	*line;
+	char	*dest;
+	char	*expand;
+	int		expand_or_not;
+}			t_expand;
+
 void	parse(t_data *data, char *str);
-int	check_quotes(char *str);
+void	control_c(int code);
+void	control_d(int code);
 
+//expands
+void	expand_token(t_data *data);
+int		check_env(t_data *data, t_token *token, int i);
 
-
-//UTILS
-int		ft_strlen(char *str);
-
-t_lst	*create_cmd(char *str);
-t_lst	*get_end(t_lst *lst_cmd);
-char	*remove_front_space(char *actual);
-char	*remove_end_space(char *actual);
-void	add_cmd(char *actual, t_data *data);
 void	add_char(char **actual, char c);
-void	free_lst(t_data *data);
-int		do_cmd(char *str);
 
 #endif

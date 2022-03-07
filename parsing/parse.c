@@ -3,73 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esafar <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/02/08 19:05:33 by esafar           ###   ########.fr       */
+/*   Updated: 2022/03/07 15:49:42 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-size_t	ft_strlen(char const *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str && str[i] != '\0')
-		i++;
-	return (i);
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	int i;
-
-	i = 0;
-	while (s1[i] != '\0' || s2[i] != '\0')
-	{
-		if (s1[i] != s2[i])
-			return (s1[i] - s2[i]);
-		else
-			i++;
-	}
-	return (0);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	char	*str;
-
-	str = (char *)s;
-	while (*str != c)
-	{
-		if (*str == '\0')
-		{
-			return (NULL);
-		}
-		str++;
-	}
-	return (str);
-}
-/*
-char	*ft_strdup(char *src)
-{
-	size_t	i;
-	char	*dest;
-
-	i = 0;
-	dest = (char *)malloc(sizeof(char) * (ft_strlen(src) + 1));
-	if (!dest)
-		return (NULL);
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}*/
+#include <unistd.h>
 
 void	skip_space(char *str, int *i)
 {
@@ -89,6 +31,8 @@ int	ignore_separator(char *str, int i)
 	else if (str[i] && str[i] == '\\' && str[i+1] && str[i+1] == '>' && str[i+2] && str[i+2] == '>')
 		return (1);
 	else if (str[i] && str[i] == '\\' && str[i+1] && str[i+1] == ';')
+		return (1);
+	else if (str[i] && str[i] == '\\' && str[i+1] && str[i+1] == '$')
 		return (1);
 	return (0);
 }
@@ -117,16 +61,14 @@ void	add_char(char **actual, char c)
 t_token	*add_token(char *str, int *j)
 {
 	char	c;
-	int		i;
+	//int		i;
 	t_token *token;
 
-	i = 0;
+	//i = 0;
 	c = ' ';
 	token = (t_token *)malloc(sizeof(t_token));
 	if(!token)
 		return (NULL);
-//	if (!token->str)
-//		token->str = ft_strdup("");
 	token->str = NULL;
 	while (str[*j] && (str[*j] != ' ' || c != ' '))
 	{
@@ -140,7 +82,7 @@ t_token	*add_token(char *str, int *j)
 			c = ' ';
 			(*j)++;
 		}
-		else if (str[*j] == '\\' && (*j)++)
+		else if (str[*j] == '\\' && str[*j + 1] && str[*j + 1] != '$' && (*j)++)
 		{
 			add_char(&token->str, str[(*j)]);
 			(*j)++;
@@ -151,7 +93,6 @@ t_token	*add_token(char *str, int *j)
 			(*j)++;
 		}
 	}
-//	printf("token: [%s]\n", token->str);
 	return (token);
 }
 
@@ -183,6 +124,8 @@ void	get_type(t_token *token, int sep)
 		token->type = APPEND;
 	else if (ft_strcmp(token->str, "|") == 0 && sep == 0)
 		token->type = PIPE;
+	else if (ft_strcmp(token->str, "$") == 0 && sep == 0)
+		token->type = DOLLAR;
 	else if (token->prev == NULL || token->prev->type == PIPE) //temporaire
 		token->type = CMD;
 	else
@@ -221,17 +164,30 @@ void	parse(t_data *data, char *str)
 {
 	t_token *token;
 
+	signal(SIGINT, &control_c);
+	signal(SIGQUIT, &control_d);
+
 //	if (check_quotes(str) == 0)
 //	{
 //		printf("Error: syntax error with quotes.\n");
 //		free(str);
 //		return ;
 //	}
-	printf("str : [%s]\n", str);
+//	printf("str : [%s]\n", str);
+	if (ft_strlen(str) == 0)
+		return ;
 	data->begin = create_token_lst(str);
 
-/*	token = data->begin;
-	printf("data->begin: %s\n", token->str);
+/*	int i = 0;
+	while (data->env[i])
+	{
+		printf("%s\n", data->env[i]);
+		i++;
+	}*/
+//	token = data->begin;
+	expand_token(data);
+	token = data->begin;
+//	printf("data->begin: %s\n", token->str);
 	while (token && token->next)
 	{
 		printf("token->str: [%s]\n", token->str);
@@ -240,11 +196,7 @@ void	parse(t_data *data, char *str)
 	}
 	printf("token->str: [%s]\n", token->str);
 	printf("token->type: %d\n", token->type);
-	while (token && token->prev)
-	{
-		printf("token precedent!\n");
-		printf("token->str: [%s]\n", token->str);
-		token = token->prev;
-	}*/
+//	ft_pwd();
+//	ft_env(data->env);
 	free_lst(data);
 }

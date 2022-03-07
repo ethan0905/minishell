@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strcopy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/28 17:36:33 by achane-l          #+#    #+#             */
-/*   Updated: 2022/02/28 17:36:51 by achane-l         ###   ########.fr       */
+/*   Created: 2022/03/04 14:02:53 by achane-l          #+#    #+#             */
+/*   Updated: 2022/03/04 14:11:25 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./utils.h"
 
-int	ft_strlen(char *str)
+char	*ft_strcopy(char *src)
 {
-	int i = 0;
+	char	*dest;
+	int		i;
 
-	while (str && str[i])
+	if (src == NULL)
+		return (NULL);
+	dest = malloc(ft_strlen(src) + 1);
+	if (dest == NULL)
+		return (NULL);
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
 		i++;
-	return (i);
+	}
+	dest[i] = 0;
+	return (dest);
 }

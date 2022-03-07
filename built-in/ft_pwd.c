@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/28 17:36:33 by achane-l          #+#    #+#             */
-/*   Updated: 2022/02/28 17:36:51 by achane-l         ###   ########.fr       */
+/*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
+/*   Updated: 2022/02/28 17:45:18 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./utils.h"
+//#include "built-in.h"
+#include "../minishell.h"
 
-int	ft_strlen(char *str)
+int	ft_pwd(void)
 {
-	int i = 0;
+	char cwd[PATH_MAX];
 
-	while (str && str[i])
-		i++;
-	return (i);
+	printf("pathmax = %d\n", PATH_MAX);
+	if (getcwd(cwd, PATH_MAX))
+	{
+		printf("cwd: [%s]\n", cwd);
+		return (1);
+	}
+	else
+		return (-1);
 }

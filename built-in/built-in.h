@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   built-in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/28 17:36:33 by achane-l          #+#    #+#             */
-/*   Updated: 2022/02/28 17:36:51 by achane-l         ###   ########.fr       */
+/*   Created: 2022/02/28 14:56:36 by achane-l          #+#    #+#             */
+/*   Updated: 2022/02/28 14:58:50 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./utils.h"
+#ifndef BUILTIN_H
+# define BUILTIN_H
 
-int	ft_strlen(char *str)
-{
-	int i = 0;
+//# define PURPLE \033[0;35m
+// # define YELLOW \033[0;33m
+// # define END \033[0;m
 
-	while (str && str[i])
-		i++;
-	return (i);
-}
+#include "../minishell.h"
+
+int	ft_pwd(void);
+int	ft_env(char **env);
+
+#endif

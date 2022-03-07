@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/28 17:36:33 by achane-l          #+#    #+#             */
-/*   Updated: 2022/02/28 17:36:51 by achane-l         ###   ########.fr       */
+/*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
+/*   Updated: 2022/02/28 17:45:18 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./utils.h"
+#include "built-in.h"
 
-int	ft_strlen(char *str)
+int	ft_env(char **env)
 {
-	int i = 0;
+	int i;
+	int j;
 
-	while (str && str[i])
+	i = 0;
+	while (env[i])
+	{
+		j = 0;
+		while (env[i][j])
+		{
+			printf("%c", env[i][j]);
+			j++;
+		}
+		printf("\n");
 		i++;
-	return (i);
+	}
+	return (0);
 }
