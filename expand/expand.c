@@ -115,7 +115,6 @@ void	get_expand(t_data *data, t_token *token, t_expand *expand, int i)
 		i++;
 	}
 	//3: je recup mon pointeur sur la bonne line dans env
-	printf("dest == = %s\n", expand->dest);
 	if (ft_strcmp(expand->dest, "?") == 0)
 		expand->expand = ft_itoa(data->exit_code); //get exit code here
 	else

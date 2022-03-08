@@ -24,6 +24,8 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		str = readline("\033[0;31m➜ \033[0;33m❖\033[0;m \033[0;96mminishell\033[0;m \033[0;33m❖ \033[0;m");
+		if (str == NULL)
+			return (-1);
 		add_history(str);
 		parse(&data, str);
 		data.cmd = init_cmds(data.begin);
