@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built-in.h                                         :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
+/*   By: esafar <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/28 14:56:36 by achane-l          #+#    #+#             */
-/*   Updated: 2022/02/28 14:58:50 by achane-l         ###   ########.fr       */
+/*   Created: 2021/05/23 11:20:54 by esafar            #+#    #+#             */
+/*   Updated: 2021/06/04 09:33:35 by esafar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "utils.h"
 
-//# define PURPLE \033[0;35m
-// # define YELLOW \033[0;33m
-// # define END \033[0;m
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
 
-#include "../minishell.h"
-
-int	ft_pwd(void);
-int	ft_env(char **env);
-int	ft_export(t_data *data, char *str);
-
-#endif
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i] != '\0')
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+}

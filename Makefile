@@ -24,8 +24,10 @@ SRCS = ./main.c \
 	./utils/ft_split.c \
 	./utils/ft_strcopy.c \
 	./utils/ft_itoa.c \
+	./utils/ft_putstr_fd.c \
 	./built-in/ft_pwd.c \
 	./built-in/ft_env.c \
+	./built-in/ft_export.c \
 	./exec_files/exec.c \
 	./exec_files/get_data_cmds.c \
 	./exec_files/init_cmds.c \
@@ -42,7 +44,7 @@ OBJS = ${SRCS:.c=.o}
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	${CC} ${FLAGS} ${OBJS} -I includes -o ${NAME} ${R_FLAG}
+	${CC} ${FLAGS} ${OBJS} -I includes -L/opt/homebrew/opt/readline/lib -I/opt/homebrew/opt/readline/include -o ${NAME} ${R_FLAG}
 
 clean:
 	rm -f ${OBJS}

@@ -164,6 +164,7 @@ void	parse(t_data *data, char *str)
 {
 //	t_token *token;
 
+//	sig.pid = data->signal.pid; 
 	signal(SIGINT, &control_c);
 	signal(SIGQUIT, &control_d);
 
@@ -200,4 +201,5 @@ void	parse(t_data *data, char *str)
 //	ft_pwd();
 //	ft_env(data->env);
 //	free_lst(data);
+	ft_export(data, "test=\"lala\"");
 }

@@ -27,11 +27,11 @@ int	exec(t_data *data)
 		{
 			if (pipe(fd) == -1)
 				return (-1);
-			data->signal.pid = fork();
-			if (data->signal.pid < 0)
+			pid = fork();
+			if (pid < 0)
 				return (-1);
-			else if (data->signal.pid == 0)
-				child_process(cmds, data->cmd, fd, data->env);
+			else if (pid == 0)
+				child_process(cmds, data->cmd, fd, data->envp);
 			else
 				parent_process(cmds, fd);
 			cmds = cmds->next;
