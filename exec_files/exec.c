@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 17:06:12 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/07 15:36:10 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/15 11:25:49 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	exec(t_data *data)
 {
 	t_cmd	*cmds;
 	int		fd[2];
-//	int		pid;
 
 	cmds = data->cmd;
 	while (cmds)
@@ -31,7 +30,7 @@ int	exec(t_data *data)
 			if (data->signal.pid < 0)
 				return (-1);
 			else if (data->signal.pid == 0)
-				child_process(cmds, data->cmd, fd, data->env);
+				child_process(data, cmds, fd);
 			else
 				parent_process(cmds, fd);
 			cmds = cmds->next;
@@ -41,17 +40,3 @@ int	exec(t_data *data)
 	free_cmd(&data->cmd);
 	return (1);
 }
-
-// int main (int argc, char **argv, char **env)
-// {
-// 	t_token *lst;
-// 	t_data test;
-// 	t_cmd	*cmd;
-// 	(void)argc;
-
-// 	lst = create_token_lst(argv[1]);
-// 	test.begin = lst;
-// 	cmd = init_cmds(lst); 
-// 	free_lst(&test);
-// 	exec(cmd, env);
-// }
