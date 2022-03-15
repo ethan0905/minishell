@@ -20,12 +20,12 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	data.envp = env;
+	data.env = create_env(data.envp);
 	data.exit_code = 42;
 	signal(SIGINT, &control_c);
 	signal(SIGQUIT, &control_d);
 	while (1)
 	{
-		pid = 0;
 		str = readline("\033[0;31m➜ \033[0;33m❖\033[0;m \033[0;96mminishell\033[0;m \033[0;33m❖ \033[0;m");
 		if (str == NULL)
 			return (-1);

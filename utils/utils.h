@@ -19,6 +19,7 @@ char	*ft_strdup(char *str);
 void	free_tab_str(char ***tab_str, int i);
 char	**ft_split(char *line, char sep);
 int	ft_strcmp(char *s1, char *s2);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_itoa(int nb);
 void	ft_putstr_fd(char *s, int fd);
 char	*ft_strchr(const char *s, int c);

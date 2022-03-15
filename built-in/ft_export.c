@@ -86,27 +86,79 @@ char *get_syntax(char *str)
 	return (dest);
 }
 
+int	ft_lstlen(t_env *lst)
+{
+	int count;
+
+	count = 0;
+	while (lst && lst->next)
+	{
+		lst = lst->next;
+		count++;
+	}
+	return(count);
+}
+
+char **convert_lst_to_tab(t_data *data)
+{
+	t_env *lst;
+	char **dest;
+	int i = 0;
+
+	dest = NULL;
+	lst = data->env;
+	dest = (char **)malloc(sizeof(char *) * (ft_lstlen(lst) + 1));
+	while (lst && lst->next)
+	{
+		dest[i] = ft_strdup(lst->line);
+		lst = lst->next;
+		i++;
+	}
+	dest[i] = NULL;
+	return (dest);
+}
+
+void	free_tab(char **tab)
+{
+	int i;
+
+	i = 0;
+	while (tab[i])
+	{
+		if (tab[i])
+			free(tab[i]);
+		i++;
+	}
+//	free(tab);
+}
+
 int	ft_export(t_data *data, char *str)
 {
-	t_env *env;
+	t_env *head;
+	char *new;
+//	char **test;
 
-	data->env = create_env(data->envp);
-	env = data->env;
-	while (env && env->next != NULL)
-		env = env->next;
-	str = get_syntax(str);	
+//	data->env = create_env(data->envp);
+	head = data->env;
+	while (data->env && data->env->next != NULL)
+		data->env = data->env->next;
+	new = get_syntax(str);	
 //	if (env)
 //		env->next = NULL;
-	if (env->next == NULL)
+	if (data->env->next == NULL)
 	{
-		env->next = add_env_line(str);
-		env->next->prev = env;
+		data->env->next = add_env_line(new);
+		printf("%p\n", data->env->next);
+//		env->next->prev = env;
 	}
-	//juste poru le test
-	while (data->env)
-	{	
-		printf("L++ >>> %s\n", data->env->line);
-		data->env = data->env->next;
-	}
+	//juste pour le test
+//	while (data->env && data->env->next)
+//	{	
+//		printf("L++ >>> %s\n", data->env->line);	
+//		data->env = data->env->next;
+//	}
+	data->test = convert_lst_to_tab(data);
+	data->env = head;
+//	free_tab(data->test);
 	return (1);
 }

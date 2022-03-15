@@ -199,7 +199,31 @@ void	parse(t_data *data, char *str)
 //	printf("token->str: [%s]\n", token->str);
 //	printf("token->type: %d\n", token->type);
 //	ft_pwd();
-//	ft_env(data->env);
+//	ft_env(data->envp);
 //	free_lst(data);
-	ft_export(data, "test=\"lala\"");
+	t_env *head;
+
+	head = data->env;
+	printf("\n\n\n");
+	ft_export(data, "test=\"TEST\"");
+	ft_export(data, "ABC=\"ABC\"");
+	ft_export(data, "LALA=\"LALA\"");
+	while (head)
+	{
+		printf("ENV = %s\n", head->line);
+		head = head->next;
+	}
+	//ft_env(data->test);
+	printf("\n\n\n");
+//	ft_unset(data, "test"); //ajouter le '=' a la fin de la str
+	ft_unset(data, "TERM_SESSION_ID"); //ajouter le '=' a la fin de la str
+	ft_unset(data, "LALA"); //ajouter le '=' a la fin de la str
+	head = data->env;
+	while (head)
+	{
+		printf("HEAD = %s\n", head->line);
+		head = head->next;
+	}
+//	ft_env(data->test);
+
 }

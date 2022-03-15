@@ -66,6 +66,7 @@ typedef struct s_data
 	t_env *env;
 	t_signal signal;
 	char **envp;
+	char **test;
 	struct s_cmd	*cmd;
 	bool end;
 	int	exit_code;
@@ -89,6 +90,8 @@ void	control_d(int code);
 //expands
 void	expand_token(t_data *data);
 int		check_env(t_data *data, t_token *token, int i);
+
+t_env *create_env(char **env);
 
 void	add_char(char **actual, char c);
 void	free_lst(t_data *data);

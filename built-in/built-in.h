@@ -22,5 +22,6 @@
 int	ft_pwd(void);
 int	ft_env(char **env);
 int	ft_export(t_data *data, char *str);
+int	ft_unset(t_data *data, char *str);
 
 #endif
