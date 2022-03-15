@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 19:13:18 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/07 15:09:19 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/08 14:28:35 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,7 @@ t_cmd	*create_cmd(t_token *token)
 	cmd = malloc(sizeof(t_cmd));
 	if (cmd == NULL)
 		return (NULL);
-	cmd->skip_cmd = false;
-	cmd->infile = get_infile(token);
-	if (cmd->infile == -1)
-	{
-		cmd->skip_cmd = true;
-		cmd->outfile = -1;
-	}
-	else
-	{
-		cmd->outfile = get_outfile(token);
-		if (cmd->outfile == -1)
-		{
-			if (cmd->infile >= 0)
-				close(cmd->infile);
-			cmd->skip_cmd = true;
-			cmd->infile = -1;
-		}
-	}
+	add_file_to_cmd(cmd, token);
 	cmd->cmd_param = get_cmd(token);
 	cmd->next = NULL;
 	return (cmd);
