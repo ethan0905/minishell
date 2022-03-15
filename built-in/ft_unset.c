@@ -41,27 +41,33 @@ void	reach_good_node(t_data *data, int index)
 		env = env->next;
 		index--;
 	}
+	printf("ATCION: %s\n", env->line);
 	if (index == 0)
 	{
+		printf("CAS DU PREMIER A UNSETi\n");
 		node_to_unset = data->env;
-		data->env = data->env->next;
+		data->env = node_to_unset->next;
 		free(node_to_unset->line);
 		free(node_to_unset);
 	}
-	else if (index == 1)
+	else if (env && env->next && env->next->next && index == 1)
 	{
 		if (env->next)
 		{
 			node_to_unset = env->next;
-			env->next = NULL;
+			if (node_to_unset->next == NULL)
+				env->next = NULL;
+			else
+				env->next = node_to_unset->next;
 			free(node_to_unset->line);
 			free(node_to_unset);
 		}
 	}
 	else
 	{
+		printf("COB+ VAUT : %d", index);
 		node_to_unset = env->next;
-		env->next = env->next->next;
+		env->next = node_to_unset->next;
 		free(node_to_unset->line);
 		free(node_to_unset);
 	}
@@ -70,9 +76,25 @@ void	reach_good_node(t_data *data, int index)
 int	ft_unset(t_data *data, char *str)
 {
 	int index;
+	t_env *lala;
 
 	index = 0;
+	lala = data->env;
 	index = look_for_word(data, str, ft_strlen(str));
 	reach_good_node(data, index);
+	printf("ACTION : [UNSET -> %s]\n", str);
+//	while (data->env)
+//	{
+//		printf("DATA->env = %s\n", data->env->line);
+//		data->env = data->env->next;
+//	}
+
+	data->test = convert_lst_to_tab(data); 
+/*	int i = 0;
+	while (data->test[i])
+	{
+		printf("TEST[%d] = %s\n", i, data->test[i]);
+		i++;
+	}*/
 	return (0);
 }

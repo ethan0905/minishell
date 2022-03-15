@@ -201,29 +201,37 @@ void	parse(t_data *data, char *str)
 //	ft_pwd();
 //	ft_env(data->envp);
 //	free_lst(data);
-	t_env *head;
+//	t_env *head;
 
-	head = data->env;
+//	head = data->env;
 	printf("\n\n\n");
 	ft_export(data, "test=\"TEST\"");
 	ft_export(data, "ABC=\"ABC\"");
 	ft_export(data, "LALA=\"LALA\"");
-	while (head)
+/*	while (head)
 	{
 		printf("ENV = %s\n", head->line);
 		head = head->next;
-	}
+	}*/
 	//ft_env(data->test);
 	printf("\n\n\n");
-//	ft_unset(data, "test"); //ajouter le '=' a la fin de la str
+	ft_unset(data, "ABC"); //ajouter le '=' a la fin de la str
 	ft_unset(data, "TERM_SESSION_ID"); //ajouter le '=' a la fin de la str
+//	ft_unset(data, "TERM_SESSION_ID"); //ajouter le '=' a la fin de la str
 	ft_unset(data, "LALA"); //ajouter le '=' a la fin de la str
-	head = data->env;
-	while (head)
+	ft_unset(data, "test"); //ajouter le '=' a la fin de la str
+//	head = data->env;
+	while (data->env)
 	{
-		printf("HEAD = %s\n", head->line);
-		head = head->next;
+		printf("DATAENV = %s\n", data->env->line);
+		data->env = data->env->next;
 	}
+//	int i = 0;
+///	while (data->test[i])
+//	{
+//		printf("TEST[%d] = %s\n", i, data->test[i]);
+//		i++;
+//	}
 //	ft_env(data->test);
 
 }

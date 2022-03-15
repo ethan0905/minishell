@@ -21,6 +21,7 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	data.envp = env;
 	data.env = create_env(data.envp);
+	data.test = convert_lst_to_tab(&data);
 	data.exit_code = 42;
 	signal(SIGINT, &control_c);
 	signal(SIGQUIT, &control_d);

@@ -108,13 +108,15 @@ char **convert_lst_to_tab(t_data *data)
 	dest = NULL;
 	lst = data->env;
 	dest = (char **)malloc(sizeof(char *) * (ft_lstlen(lst) + 1));
-	while (lst && lst->next)
+	while (lst)
 	{
+//		printf(">>> %s\n", lst->line);
 		dest[i] = ft_strdup(lst->line);
 		lst = lst->next;
 		i++;
 	}
 	dest[i] = NULL;
+//	printf(">>> END\n\n");
 	return (dest);
 }
 
@@ -148,7 +150,6 @@ int	ft_export(t_data *data, char *str)
 	if (data->env->next == NULL)
 	{
 		data->env->next = add_env_line(new);
-		printf("%p\n", data->env->next);
 //		env->next->prev = env;
 	}
 	//juste pour le test
@@ -157,8 +158,10 @@ int	ft_export(t_data *data, char *str)
 //		printf("L++ >>> %s\n", data->env->line);	
 //		data->env = data->env->next;
 //	}
-	data->test = convert_lst_to_tab(data);
 	data->env = head;
+	printf("ACTION = [EXPORT -> %s]\n", str);
+	data->test = convert_lst_to_tab(data);
+	//data->env = head;
 //	free_tab(data->test);
 	return (1);
 }
