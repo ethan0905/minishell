@@ -91,7 +91,7 @@ int	ft_lstlen(t_env *lst)
 	int count;
 
 	count = 0;
-	while (lst && lst->next)
+	while (lst)
 	{
 		lst = lst->next;
 		count++;
@@ -107,15 +107,21 @@ char **convert_lst_to_tab(t_data *data)
 
 	dest = NULL;
 	lst = data->env;
+//	printf("data->env = blablabla : %s\n", data->env->line);	
+//	printf("lst = blablabla : %s\n", lst->line);	
 	dest = (char **)malloc(sizeof(char *) * (ft_lstlen(lst) + 1));
+//	printf("lst = blablabla : %s\n", lst->line);	
+//	dest[0] = ft_strdup(lst->line);
 	while (lst)
 	{
-//		printf(">>> %s\n", lst->line);
+		//printf("lst[%d] : %s\n", i, lst->line);	
 		dest[i] = ft_strdup(lst->line);
+//		printf("dest[%d] : %s\n", i, dest[i]);	
 		lst = lst->next;
 		i++;
 	}
 	dest[i] = NULL;
+	printf("=-==-=> dest[0]=%s\n", dest[0]);
 //	printf(">>> END\n\n");
 	return (dest);
 }
@@ -138,9 +144,8 @@ int	ft_export(t_data *data, char *str)
 {
 	t_env *head;
 	char *new;
-//	char **test;
 
-//	data->env = create_env(data->envp);
+	printf("ACTION = [EXPORT -> %s]\n", str);
 	head = data->env;
 	while (data->env && data->env->next != NULL)
 		data->env = data->env->next;
@@ -152,16 +157,8 @@ int	ft_export(t_data *data, char *str)
 		data->env->next = add_env_line(new);
 //		env->next->prev = env;
 	}
-	//juste pour le test
-//	while (data->env && data->env->next)
-//	{	
-//		printf("L++ >>> %s\n", data->env->line);	
-//		data->env = data->env->next;
-//	}
 	data->env = head;
-	printf("ACTION = [EXPORT -> %s]\n", str);
 	data->test = convert_lst_to_tab(data);
-	//data->env = head;
 //	free_tab(data->test);
 	return (1);
 }

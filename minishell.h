@@ -94,6 +94,7 @@ int		check_env(t_data *data, t_token *token, int i);
 t_env *create_env(char **env);
 char **convert_lst_to_tab(t_data *data);
 
+void	free_tab(char **tab);
 void	add_char(char **actual, char c);
 void	free_lst(t_data *data);
 
