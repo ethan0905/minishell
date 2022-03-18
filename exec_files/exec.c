@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 17:06:12 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/15 11:25:49 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/18 15:40:19 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ int	exec(t_data *data)
 	}
 	wait_all_and_finish(data->cmd);
 	free_cmd(&data->cmd);
+	free_lst_token(data);
 	return (1);
 }

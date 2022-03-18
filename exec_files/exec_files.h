@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 11:58:21 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/15 10:48:07 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/15 13:38:42 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char	**init_paths(char **env);
 int		check_path_cmd(t_cmd *my_cmd, char **paths);
 // exec.c
 int		exec(t_data *data);
+void	free_lst_token(t_data *data);
 
 //process
 void	child_process(t_data *data, t_cmd *cmd, int *fd);
