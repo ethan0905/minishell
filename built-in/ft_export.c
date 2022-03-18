@@ -107,22 +107,14 @@ char **convert_lst_to_tab(t_data *data)
 
 	dest = NULL;
 	lst = data->env;
-//	printf("data->env = blablabla : %s\n", data->env->line);	
-//	printf("lst = blablabla : %s\n", lst->line);	
 	dest = (char **)malloc(sizeof(char *) * (ft_lstlen(lst) + 1));
-//	printf("lst = blablabla : %s\n", lst->line);	
-//	dest[0] = ft_strdup(lst->line);
 	while (lst)
 	{
-		//printf("lst[%d] : %s\n", i, lst->line);	
 		dest[i] = ft_strdup(lst->line);
-//		printf("dest[%d] : %s\n", i, dest[i]);	
 		lst = lst->next;
 		i++;
 	}
 	dest[i] = NULL;
-	printf("=-==-=> dest[0]=%s\n", dest[0]);
-//	printf(">>> END\n\n");
 	return (dest);
 }
 
