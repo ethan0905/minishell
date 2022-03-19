@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:35:53 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/18 15:41:24 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/19 19:40:13 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	child_process(t_data *data, t_cmd *cmd, int *fd)
 	close(fd[0]);
 	close(fd[1]);
 	free_cmd(&cmd);
-	free_lst_token(data);
+	free_lst(data);
 	exit(ret);
 }
 
