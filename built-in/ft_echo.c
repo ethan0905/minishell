@@ -25,7 +25,7 @@ int	ft_echo(char **args)
 		count_args++;
 	while(i < count_args)
 	{
-		if (i == 1 && args[i] && strcmp(args[i], "-n") == 0)
+		if (i == 1 && args[i] && ft_strcmp(args[i], "-n") == 0)
 		{
 			i++;
 			nl = false;

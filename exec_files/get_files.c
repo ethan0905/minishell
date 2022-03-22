@@ -1,31 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_data_cmds.c                                    :+:      :+:    :+:   */
+/*   get_files.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/25 17:11:00 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/05 17:14:40 by achane-l         ###   ########.fr       */
+/*   Created: 2022/03/08 14:17:54 by achane-l          #+#    #+#             */
+/*   Updated: 2022/03/18 15:45:58 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./exec_files.h"
 
-int	count_arg_in_command(t_token *token)
+int	here_doc(char *word)
 {
-	int	count;
+	char	*buf;
+	int		fd;
 
-	count = 0;
-	while (token && token->type != PIPE)
+	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd < 0)
+		return (-1);
+	while (1)
 	{
-		if ((!token->prev && token->type > 4) || (token->prev && token->prev->type > 4 && token->type > 4))
-			count++;
-		// if (token->type == CMD || (token->type == ARG && token->prev && token->prev->type > 5))
-		// 	count++;
-		token = token->next;
+		write(1, "> ", 2);
+		if (get_next_line(0, &buf) < 0)
+			exit(0);
+		if (!ft_strncmp(word, buf, ft_strlen(word) + 1))
+			break ;
+		write(fd, buf, ft_strlen(buf));
+		write(fd, "\n", 1);
+		free(buf);
 	}
-	return (count);
+	free(buf);
+	close(fd);
+	fd = open(".heredoc_tmp", O_RDONLY);
+	if (fd < 0)
+		unlink(".heredoc_tmp");
+	return (fd);
 }
 
 int	open_file(char *filename, int type)
@@ -35,7 +46,7 @@ int	open_file(char *filename, int type)
 	if (type == INPUT)
 		fd = open(filename, O_RDONLY, 0644);
 	else if (type == HEREDOC)
-		return(1);//HEREDOC
+		fd = here_doc(filename);
 	else if (type == TRUNC)
 		fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type == APPEND)
@@ -66,7 +77,7 @@ int	get_infile(t_token *token)
 		{
 			if (fd >= 0)
 				close(fd);
-			fd = 1;// do HEREDOC fUNC
+			fd = open_file(token->next->str, HEREDOC);
 			if (fd == -1)
 				return (-1);
 		}
@@ -78,7 +89,7 @@ int	get_infile(t_token *token)
 int	get_outfile(t_token *token)
 {
 	int		fd;
-	
+
 	fd = -2;
 	while (token && token->type != PIPE)
 	{
@@ -103,23 +114,24 @@ int	get_outfile(t_token *token)
 	return (fd);
 }
 
-char	**get_cmd(t_token *token)
+void	add_file_to_cmd(t_cmd *cmd, t_token *token)
 {
-	char	**cmd_param;
-	int		i;
-
-	i = 0;
-	cmd_param = malloc(sizeof(char *) * (count_arg_in_command(token) + 1));
-	if (cmd_param == NULL)
-		return (NULL);
-	cmd_param[count_arg_in_command(token)] = NULL;
-	while (token && token->type != PIPE)
+	cmd->skip_cmd = false;
+	cmd->infile = get_infile(token);
+	if (cmd->infile == -1)
 	{
-		if ((!token->prev && token->type > 4) || (token->prev && token->prev->type > 4 && token->type > 4))
-			cmd_param[i++] = ft_strcopy(token->str);//strcopy la string;
-		// if (token->type == CMD || (token->type == ARG && token->prev && token->prev->type > 5))
-		// 	cmd_param[i++] = token->str;//strcopy;
-		token = token->next;
+		cmd->skip_cmd = true;
+		cmd->outfile = -1;
 	}
-	return (cmd_param);
+	else
+	{
+		cmd->outfile = get_outfile(token);
+		if (cmd->outfile == -1)
+		{
+			if (cmd->infile >= 0)
+				close(cmd->infile);
+			cmd->skip_cmd = true;
+			cmd->infile = -1;
+		}
+	}	
 }

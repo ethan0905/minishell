@@ -21,6 +21,7 @@
 #include <stdbool.h>
 #include <signal.h>
 #include "./utils/utils.h"
+#include "./get_next_line/get_next_line.h"
 
 
 # include <limits.h>
@@ -50,7 +51,7 @@ typedef struct s_token
 
 typedef struct s_signal
 {
-	int lol;
+	pid_t	pid;
 }			t_signal;
 
 typedef struct s_env
