@@ -6,7 +6,7 @@
 /*   By: esafar <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/02/08 19:05:33 by esafar           ###   ########.fr       */
+/*   Updated: 2022/03/22 15:49:05 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int main(int ac, char **av, char **env)
 	data.test = convert_lst_to_tab(&data);
 	data.exit_code = 42;
 	signal(SIGINT, &control_c);
-	signal(SIGQUIT, &control_d);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		str = readline("\033[0;31m➜ \033[0;33m❖\033[0;m \033[0;96mminishell\033[0;m \033[0;33m❖ \033[0;m");

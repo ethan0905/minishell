@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 17:06:12 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/19 19:39:28 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/22 15:39:14 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	exec(t_data *data)
 			if (pipe(fd) == -1)
 				return (-1);
 			data->signal.pid = fork();
-			if (pid < 0)
+			if (data->signal.pid < 0)
 				return (-1);
 			else if (data->signal.pid == 0)
 				child_process(data, cmds, fd);
