@@ -169,7 +169,7 @@ void	parse(t_data *data, char *str)
 	if (ft_strlen(str) == 0)
 		return ;
 	data->begin = create_token_lst(str);
-	token = data->begin;
+//	token = data->begin;
 
 /*	while (token)
 	{
