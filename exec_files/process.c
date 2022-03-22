@@ -47,14 +47,14 @@ int	exec_cmd(t_data *data, t_cmd *cmd, int *fd)
 	}
 	else
 	{
-		paths = init_paths(data->envp);
+		paths = init_paths(data->test);
 		if (paths == NULL)
 			return (-1);	
 		if (check_path_cmd(cmd, paths) == 1)
 		{
 			free_tab_str(&paths, -1);
 			redirect_in_out(cmd, fd);
-			execve(cmd->cmd_param[0], cmd->cmd_param, data->envp);
+			execve(cmd->cmd_param[0], cmd->cmd_param, data->test);
 		}
 		free_tab_str(&paths, -1);
 	}

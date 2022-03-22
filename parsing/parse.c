@@ -164,8 +164,8 @@ void	parse(t_data *data, char *str)
 {
 //	t_token *token;
 
-	signal(SIGINT, &control_c);
-	signal(SIGQUIT, &control_d);
+//	signal(SIGINT, &control_c);
+//	signal(SIGQUIT, &control_d);
 	if (ft_strlen(str) == 0)
 		return ;
 	data->begin = create_token_lst(str);
