@@ -22,8 +22,6 @@
 #include <signal.h>
 #include "./utils/utils.h"
 #include "./get_next_line/get_next_line.h"
-
-
 # include <limits.h>
 
 //# define PURPLE \033[0;35m
@@ -38,8 +36,6 @@
 # define CMD 		6	//"|"
 # define ARG 		7	//"|"
 # define DOLLAR 	8	//"$"
-
-pid_t pid;
 
 typedef struct s_token
 {

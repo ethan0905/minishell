@@ -76,10 +76,10 @@ void	reach_good_node(t_data *data, int index)
 int	ft_unset(t_data *data, char *str)
 {
 	int index;
-	t_env *lala;
+//	t_env *lala;
 
 	index = 0;
-	lala = data->env;
+//	lala = data->env;
 	index = look_for_word(data, str, ft_strlen(str));
 	reach_good_node(data, index);
 	printf("ACTION : [UNSET -> %s]\n", str);
