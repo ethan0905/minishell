@@ -137,7 +137,7 @@ int	ft_export(t_data *data, char *str)
 	t_env *head;
 	char *new;
 
-	printf("ACTION = [EXPORT -> %s]\n", str);
+//	printf("ACTION = [EXPORT -> %s]\n", str);
 	head = data->env;
 	while (data->env && data->env->next != NULL)
 		data->env = data->env->next;

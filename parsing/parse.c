@@ -169,25 +169,32 @@ void	parse(t_data *data, char *str)
 	if (ft_strlen(str) == 0)
 		return ;
 	data->begin = create_token_lst(str);
+	token = data->begin;
+
+/*	while (token)
+	{
+		printf("trokeoenf : [%s]\n", token->str);
+		token = token->next;
+	}*/
 	expand_token(data);
 //	ft_pwd();
 //	ft_env(data->envp);
-	ft_export(data, "test=\"TEST\"");
-	ft_export(data, "ABC=\"ABC\"");
-	ft_export(data, "LALA=\"LALA\"");
+//	ft_export(data, "test=\"TEST\"");
+//	ft_export(data, "ABC=\"ABC\"");
+//	ft_export(data, "LALA=\"LALA\"");
 	//ft_env(data->test);
-	printf("\n");
+//	printf("\n");
 //	ft_unset(data, "TERM_SESSION_ID"); //ajouter le '=' a la fin de la str
-	ft_unset(data, "TERM_SESSION_ID"); //ajouter le '=' a la fin de la str
-	ft_unset(data, "LALA"); //ajouter le '=' a la fin de la str
-	ft_unset(data, "ABC"); //ajouter le '=' a la fin de la str
-	ft_unset(data, "test"); //ajouter le '=' a la fin de la str
+//	ft_unset(data, "TERM_SESSION_ID"); //ajouter le '=' a la fin de la str
+//	ft_unset(data, "LALA"); //ajouter le '=' a la fin de la str
+//	ft_unset(data, "ABC"); //ajouter le '=' a la fin de la str
+//	ft_unset(data, "test"); //ajouter le '=' a la fin de la str
 	//ft_unset(data, "LESS=-R"); //ajouter le '=' a la fin de la str
-
+/*
 	int i = 0;
 	while (data->test[i])
 	{
 		printf("TEST[%d] = %s\n", i, data->test[i]);
 		i++;
-	}
+	}*/
 }
