@@ -21,8 +21,7 @@
 #include <stdbool.h>
 #include <signal.h>
 #include "./utils/utils.h"
-#include "./built-in/built-in.h"
-
+#include "./get_next_line/get_next_line.h"
 # include <limits.h>
 
 //# define PURPLE \033[0;35m
@@ -48,20 +47,30 @@ typedef struct s_token
 
 typedef struct s_signal
 {
-	pid_t pid;
+	pid_t	pid;
 }			t_signal;
+
+typedef struct s_env
+{
+	char	*line;
+	struct s_env *prev;
+	struct s_env *next;
+}			t_env;
 
 typedef struct s_data
 {
 	t_token *begin;
+	t_env *env;
 	t_signal signal;
-	char **env;
+	char **envp;
+	char **test;
 	struct s_cmd	*cmd;
 	bool end;
 	int	exit_code;
 }			t_data;
 
 #include "./exec_files/exec_files.h"
+#include "./built-in/built-in.h"
 
 typedef struct s_expand
 {
@@ -79,6 +88,12 @@ void	control_d(int code);
 void	expand_token(t_data *data);
 int		check_env(t_data *data, t_token *token, int i);
 
-void	add_char(char **actual, char c);
+t_env *create_env(char **env);
+char **convert_lst_to_tab(t_data *data);
 
+void	free_tab(char **tab);
+void	add_char(char **actual, char c);
+void	free_lst(t_data *data);
+
+extern t_signal sig;
 #endif

@@ -19,18 +19,25 @@ SRCS = ./main.c \
 	./expand/expand.c \
 	./utils/ft_strlen.c \
 	./utils/ft_strcmp.c \
+	./utils/ft_strncmp.c \
 	./utils/ft_strdup.c \
 	./utils/ft_strjoin.c \
 	./utils/ft_split.c \
 	./utils/ft_strcopy.c \
 	./utils/ft_itoa.c \
+	./utils/ft_putstr_fd.c \
 	./built-in/ft_pwd.c \
 	./built-in/ft_env.c \
+	./built-in/ft_echo.c \
+	./built-in/ft_export.c \
+	./built-in/ft_unset.c \
 	./exec_files/exec.c \
-	./exec_files/get_data_cmds.c \
+	./exec_files/get_cmds.c \
+	./exec_files/get_files.c \
 	./exec_files/init_cmds.c \
 	./exec_files/paths.c \
 	./exec_files/process.c \
+	./get_next_line/get_next_line.c \
 
 CC = cc
 R_FLAG = -lreadline
@@ -42,7 +49,7 @@ OBJS = ${SRCS:.c=.o}
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	${CC} ${FLAGS} ${OBJS} -I includes -o ${NAME} ${R_FLAG}
+	${CC} ${FLAGS} ${OBJS} -I includes -L/opt/homebrew/opt/readline/lib -I/opt/homebrew/opt/readline/include -o ${NAME} ${R_FLAG}
 
 clean:
 	rm -f ${OBJS}
