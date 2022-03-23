@@ -58,13 +58,23 @@ void	add_char(char **actual, char c)
 	(*actual) = dest;
 }
 
+void	add_char_and_move(t_token *token, char *str, int *j)
+{
+	add_char(&token->str, str[(*j)]);
+	(*j)++;
+}
+
+void	reset_char(char *c, int *j)
+{
+	(*c) = ' ';
+	(*j)++;
+}
+
 t_token	*add_token(char *str, int *j)
 {
 	char	c;
-	//int		i;
 	t_token *token;
 
-	//i = 0;
 	c = ' ';
 	token = (t_token *)malloc(sizeof(t_token));
 	if(!token)
@@ -77,21 +87,12 @@ t_token	*add_token(char *str, int *j)
 			c = str[(*j)];
 			(*j)++;
 		}
-		else if (c != ' ' && str[*j] == c)
-		{
-			c = ' ';
-			(*j)++;
-		}
+		else if (c != ' ' && str[(*j)] == c)
+			reset_char(&c, j);
 		else if (str[*j] == '\\' && str[*j + 1] && str[*j + 1] != '$' && (*j)++)
-		{
-			add_char(&token->str, str[(*j)]);
-			(*j)++;
-		}
+			add_char_and_move(token, str, j);
 		else
-		{
-			add_char(&token->str, str[(*j)]);
-			(*j)++;
-		}
+			add_char_and_move(token, str, j);
 	}
 	return (token);
 }
@@ -173,7 +174,7 @@ void	parse(t_data *data, char *str)
 
 /*	while (token)
 	{
-		printf("trokeoenf : [%s]\n", token->str);
+		printf("token : [%s]\n", token->str);
 		token = token->next;
 	}*/
 	expand_token(data);
