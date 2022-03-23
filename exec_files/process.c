@@ -6,11 +6,24 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:35:53 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/19 19:40:13 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:08:42 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./exec_files.h"
+
+void	exit_process(t_data *data, t_cmd *cmd, int *fd)
+{
+	if (cmd->infile >= 0)
+		close(cmd->infile);
+	if (cmd->outfile >= 0)
+		close(cmd->outfile);
+	close(fd[0]);
+	close(fd[1]);
+	free_cmd(&data->cmd);
+	free_lst(data);
+	exit(-1);
+}
 
 void	redirect_in_out(t_cmd *cmd, int *fd)
 {
@@ -30,63 +43,25 @@ void	redirect_in_out(t_cmd *cmd, int *fd)
 	close(fd[1]);
 }
 
-int	exec_cmd(t_data *data, t_cmd *cmd, int *fd)
+void	child_process(t_data *data, t_cmd *cmd, int *fd)
 {
-	char	**paths;
-	// int		ret;
-
-	if (ft_strcmp(cmd->cmd_param[0], "echo") == 0)
+	if (is_built_in(cmd->cmd_param[0]))
 	{
-		redirect_in_out(cmd, fd);
-		return (ft_echo(cmd->cmd_param));
+		if (cmd->outfile < 0 && cmd->next)
+			cmd->outfile = fd[1];
+		launch_built_in(cmd);
 	}
-	else if (ft_strcmp(cmd->cmd_param[0], "pwd") == 0)
+	else if (command_exist(data, cmd))
 	{
 		redirect_in_out(cmd, fd);
-		return (ft_pwd());
+		execve(cmd->cmd_param[0], cmd->cmd_param, data->env);
 	}
 	else
 	{
-		paths = init_paths(data->env);
-		if (paths == NULL)
-			return (-1);	
-		if (check_path_cmd(cmd, paths) == 1)
-		{
-			free_tab_str(&paths, -1);
-			redirect_in_out(cmd, fd);
-			execve(cmd->cmd_param[0], cmd->cmd_param, data->env);
-		}
-		free_tab_str(&paths, -1);
+		write (1, cmd->cmd_param[0], ft_strlen(cmd->cmd_param[0]));
+		write (1, ": command not found\n", 20);
 	}
-	return (-1);
-}
-
-void	child_process(t_data *data, t_cmd *cmd, int *fd)
-{
-	int	ret;
-
-	if (!cmd->cmd_param[0])
-	{
-		if (cmd->infile >= 0)
-			close(cmd->infile);
-		if (cmd->outfile >= 0)
-			close(cmd->outfile);
-		close(fd[0]);
-		close(fd[1]);
-		exit(0);
-	}
-	ret = exec_cmd(data, cmd, fd);
-	if (ret == -1)
-		perror(cmd->cmd_param[0]);
-	if (cmd->infile >= 0)
-		close(cmd->infile);
-	if (cmd->outfile >= 0)
-		close(cmd->outfile);
-	close(fd[0]);
-	close(fd[1]);
-	free_cmd(&cmd);
-	free_lst(data);
-	exit(ret);
+	exit_process(data, cmd, fd);
 }
 
 void	parent_process(t_cmd *cmd, int *fd)
