@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 11:58:21 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/15 10:48:07 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:08:05 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,15 @@ int		check_env_val(char *src, char *find);
 char	**init_paths(char **env);
 int		check_path_cmd(t_cmd *my_cmd, char **paths);
 // exec.c
+bool	is_built_in(char *cmd);
+bool	command_exist(t_data *data, t_cmd *cmd);
+int		launch_built_in(t_cmd *cmd);
+void	launch_cmd(t_data *data, t_cmd *cmd, int *fd);
 int		exec(t_data *data);
 
 //process
+void	exit_process(t_data *data, t_cmd *cmd, int *fd);
+void	redirect_in_out(t_cmd *cmd, int *fd);
 void	child_process(t_data *data, t_cmd *cmd, int *fd);
 void	parent_process(t_cmd *cmd, int *fd);
 void	wait_all_and_finish(t_cmd *cmds);

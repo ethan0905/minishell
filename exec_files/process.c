@@ -6,51 +6,62 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:35:53 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/15 11:22:11 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:08:42 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./exec_files.h"
 
-void	child_process(t_data *data, t_cmd *cmd, int *fd)
+void	exit_process(t_data *data, t_cmd *cmd, int *fd)
 {
-	char	**paths;
-
-	paths = init_paths(data->env);
-	if (paths == NULL)
-		return ;
-	if (check_path_cmd(cmd, paths) == 1)
-	{
-		close(fd[0]);
-		if (cmd->infile >= 0)
-		{
-			dup2(cmd->infile, 0);
-			close(cmd->infile);
-		}
-		if (cmd->outfile >= 0)
-		{
-			dup2(cmd->outfile, 1);
-			close(cmd->outfile);
-		}
-		else if (cmd->next != NULL)
-			dup2(fd[1], 1);
-		close(fd[1]);
-		execve(cmd->cmd_param[0], cmd->cmd_param, data->env);
-	}
-	if (!cmd->cmd_param[0])
-		exit(-1);
-	execve(cmd->cmd_param[0], cmd->cmd_param, data->env);
-	write(1, "command not found\n", 19);
-	perror(cmd->cmd_param[0]);
 	if (cmd->infile >= 0)
 		close(cmd->infile);
 	if (cmd->outfile >= 0)
 		close(cmd->outfile);
 	close(fd[0]);
 	close(fd[1]);
-	free_cmd(&cmd);
-	free_tab_str(&paths, -1);
+	free_cmd(&data->cmd);
+	free_lst(data);
 	exit(-1);
+}
+
+void	redirect_in_out(t_cmd *cmd, int *fd)
+{
+	close(fd[0]);
+	if (cmd->infile >= 0)
+	{
+		dup2(cmd->infile, 0);
+		close(cmd->infile);
+	}
+	if (cmd->outfile >= 0)
+	{
+		dup2(cmd->outfile, 1);
+		close(cmd->outfile);
+	}
+	else if (cmd->next != NULL)
+		dup2(fd[1], 1);
+	close(fd[1]);
+}
+
+void	child_process(t_data *data, t_cmd *cmd, int *fd)
+{
+	if (is_built_in(cmd->cmd_param[0]))
+	{
+		if (cmd->outfile < 0 && cmd->next)
+			cmd->outfile = fd[1];
+		launch_built_in(cmd);
+	}
+	else if (command_exist(data, cmd))
+	{
+		redirect_in_out(cmd, fd);
+		execve(cmd->cmd_param[0], cmd->cmd_param, data->env);
+	}
+	else
+	{
+		write (1, cmd->cmd_param[0], ft_strlen(cmd->cmd_param[0]));
+		write (1, ": command not found\n", 20);
+	}
+	exit_process(data, cmd, fd);
 }
 
 void	parent_process(t_cmd *cmd, int *fd)

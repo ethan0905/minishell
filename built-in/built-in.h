@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 14:56:36 by achane-l          #+#    #+#             */
-/*   Updated: 2022/02/28 14:58:50 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/15 12:24:29 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@
 
 int	ft_pwd(void);
 int	ft_env(char **env);
+int	ft_echo(char **args);
 
 #endif
