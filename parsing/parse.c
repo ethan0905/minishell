@@ -93,6 +93,8 @@ t_token	*add_token(char *str, int *j)
 			add_char_and_move(token, str, j);
 		else
 			add_char_and_move(token, str, j);
+		if (str[(*j)] == '|' && (c == '\'' || c == '\"'))
+			token->type = ARG;
 	}
 	return (token);
 }
@@ -109,12 +111,13 @@ void	free_lst(t_data *data)
 		data->begin = data->begin->next;
 		if (token)
 			free(token);
-		printf("FREE\n");
+//		printf("FREE\n");
 	}
 }
 
 void	get_type(t_token *token, int sep)
 {
+//	printf("token->str: %s\n", token->str);
 	if (ft_strcmp(token->str, "<") == 0 && sep == 0)
 		token->type = INPUT;
 	else if (ft_strcmp(token->str, "<<") == 0 && sep == 0)
@@ -123,7 +126,7 @@ void	get_type(t_token *token, int sep)
 		token->type = TRUNC;
 	else if (ft_strcmp(token->str, ">>") == 0 && sep == 0)
 		token->type = APPEND;
-	else if (ft_strcmp(token->str, "|") == 0 && sep == 0)
+	else if (ft_strcmp(token->str, "|") == 0 && token->type != ARG && sep == 0)
 		token->type = PIPE;
 	else if (ft_strcmp(token->str, "$") == 0 && sep == 0)
 		token->type = DOLLAR;
@@ -161,18 +164,73 @@ t_token *create_token_lst(char *str)
 	return (next);
 }
 
-void	parse(t_data *data, char *str)
+int	check_unclosed_quote(char *str)
+{
+	int i;
+	int lock;
+	bool simpleq;
+	bool doubleq;
+
+	i = 0;
+	simpleq = false;
+	doubleq = false;
+	lock = 0;
+	while (str[i])
+	{
+//		printf("str[%d] = [%c]\n", i, str[i]);
+		if (lock == 0 && (str[i] == '\'' || str[i] == '\"') && (str[i-1] && str[i-1] != '\\'))
+		{
+			if (str[i] == '\'')
+			{
+				simpleq = !simpleq;
+//				printf("OPEN simple\n");
+			}
+			else if (str[i] == '\"')
+			{
+				doubleq = !doubleq;
+//				printf("OPEN double\n");
+			}
+			lock = 1;
+//			printf("OPEN\n");
+		}
+		else if (lock == 1 && ((str[i] == '\'' && simpleq ) || (str[i] == '\"' && doubleq)) && (str[i-1] && str[i-1] != '\\'))
+		{
+			if (simpleq && str[i] == '\'')
+			{
+				simpleq = !simpleq;
+//				printf("CLOSED simple\n");
+			}
+			else if (doubleq && str[i] == '\"')
+			{
+				doubleq = !doubleq;
+//				printf("CLOSED double\n");
+			}
+			lock = 0;
+//			printf("CLOSED\n");
+		}
+		i++;
+	}
+	if (simpleq || doubleq)
+		return (0);
+	return (1);
+}
+
+int	parse(t_data *data, char *str)
 {
 //	t_token *token;
 
-//	signal(SIGINT, &control_c);
-//	signal(SIGQUIT, &control_d);
 	if (ft_strlen(str) == 0)
-		return ;
+		return (0);
+	if (!check_unclosed_quote(str))
+	{
+		printf("Error: unclosed quote.\n");
+		fflush(stdout);
+		return (0);
+	}
 	data->begin = create_token_lst(str);
-//	token = data->begin;
+/*	token = data->begin;
 
-/*	while (token)
+	while (token)
 	{
 		printf("token : [%s]\n", token->str);
 		token = token->next;
@@ -198,4 +256,5 @@ void	parse(t_data *data, char *str)
 		printf("TEST[%d] = %s\n", i, data->test[i]);
 		i++;
 	}*/
+	return (1);
 }

@@ -29,12 +29,14 @@ int main(int ac, char **av, char **env)
 	{
 		str = readline("\033[0;31m➜ \033[0;33m❖\033[0;m \033[0;96mminishell\033[0;m \033[0;33m❖ \033[0;m");
 		if (str == NULL)
-			return (-1);
+			return 0;
 		add_history(str);
-		parse(&data, str);
-		data.cmd = init_cmds(data.begin);
-		exec(&data);
-		free_lst(&data);
+		if ((ft_strlen(str) != 0) && parse(&data, str))
+		{
+			data.cmd = init_cmds(data.begin);
+			exec(&data);
+			free_lst(&data);
+		}
 		free(str);
 	}
 //	rl_clear_history();

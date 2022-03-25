@@ -108,17 +108,26 @@ void	get_str_before_dollar(t_token *token, t_expand *expand, int i)
 void	get_expand(t_data *data, t_token *token, t_expand *expand, int i)
 {
 	//2: je recup ce qui est apres mon $ dans dest
-	i++;
-	while (token->str[i] && token->str[i] != '\0')
+	if (token->str[i] && token->str[i + 1])
 	{
-		add_char(&expand->dest, token->str[i]);
 		i++;
-	}
+		while (token->str[i] && token->str[i] != '\0')
+		{
+			add_char(&expand->dest, token->str[i]);
+			i++;
+		}
 	//3: je recup mon pointeur sur la bonne line dans env
-	if (ft_strcmp(expand->dest, "?") == 0)
-		expand->expand = ft_itoa(data->exit_code); //get exit code here
+		if (ft_strcmp(expand->dest, "?") == 0)
+			expand->expand = ft_itoa(data->exit_code); //get exit code here
+		else
+			expand->expand = getenv(expand->dest);
+	}
 	else
-		expand->expand = getenv(expand->dest);
+	{
+//		expand->dest = ft_strdup("$");
+		expand->expand = ft_strdup("$");
+//		expand_or_not = 
+	}
 //	return (expand);
 }
 
@@ -128,17 +137,16 @@ void	get_line(t_expand *expand)
 	if (expand->expand_or_not == 0)
 	{	
 		expand->line = ft_strjoin(expand->line, expand->dest);
-//		printf("line equals: [%s]\n", line);
 	}
 	else
 	{
-		if (!expand->line && expand->expand)
+		if (!expand->line && ft_strcmp(expand->expand, "$") == 0)//doesnt look to be used
+			expand->line = ft_strdup("$");
+		else if (!expand->line && expand->expand)
 			expand->line = ft_strdup(expand->expand);
 		else if (expand->line && expand->expand)
 			expand->line = ft_strjoin(expand->line, expand->expand);
-//		printf("line equals: [%s]\n", line);
 	}
-//	return (line);
 }
 
 int	check_env(t_data *data, t_token *token, int i)

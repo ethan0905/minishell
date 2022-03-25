@@ -80,7 +80,7 @@ typedef struct s_expand
 	int		expand_or_not;
 }			t_expand;
 
-void	parse(t_data *data, char *str);
+int		parse(t_data *data, char *str);
 void	control_c(int code);
 void	control_d(int code);
 
@@ -95,5 +95,4 @@ void	free_tab(char **tab);
 void	add_char(char **actual, char c);
 void	free_lst(t_data *data);
 
-extern t_signal sig;
 #endif
