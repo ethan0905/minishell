@@ -138,6 +138,11 @@ int	ft_export(t_data *data, char *str)
 	char *new;
 
 	head = data->env;
+	if (ft_strlen(str) == 0)
+	{
+		printf("Error: enter a valid var to export.\n");
+		return (0);
+	}
 	while (data->env && data->env->next != NULL)
 		data->env = data->env->next;
 	new = get_syntax(str);	

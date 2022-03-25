@@ -107,7 +107,7 @@ int	parse(t_data *data, char *str)
 	expand_token(data);
 //	ft_pwd();
 //	ft_env(data->envp);
-//	ft_export(data, "test=\"TEST\"");
+	ft_export(data, "");
 //	ft_unset(data, "test"); //ajouter le '=' a la fin de la str
 /*
 	int i = 0;
