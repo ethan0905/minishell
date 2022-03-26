@@ -31,6 +31,7 @@ SRCS = ./main.c \
 	./built-in/ft_echo.c \
 	./built-in/ft_export.c \
 	./built-in/ft_unset.c \
+	./built-in/ft_cd.c \
 	./exec_files/exec.c \
 	./exec_files/get_cmds.c \
 	./exec_files/get_files.c \
