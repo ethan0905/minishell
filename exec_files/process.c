@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:35:53 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/23 16:21:52 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:56:59 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	exit_process(t_data *data, t_cmd *cmd, int *fd)
 {
+	t_env	*current;
+
 	if (cmd->infile >= 0)
 		close(cmd->infile);
 	if (cmd->outfile >= 0)
@@ -22,6 +24,15 @@ void	exit_process(t_data *data, t_cmd *cmd, int *fd)
 	close(fd[1]);
 	free_cmd(&data->cmd);
 	free_lst(data);
+	free_tab_str(&data->test, -1);
+	//free env
+	while (data->env)
+	{
+		current = data->env;
+		data->env = data->env->next;
+		free(current->line);
+		free(current);
+	}
 	exit(-1);
 }
 
@@ -49,12 +60,12 @@ void	child_process(t_data *data, t_cmd *cmd, int *fd)
 	{
 		if (cmd->outfile < 0 && cmd->next)
 			cmd->outfile = fd[1];
-		launch_built_in(cmd);
+		launch_built_in(data, cmd);
 	}
 	else if (command_exist(data, cmd))
 	{
 		redirect_in_out(cmd, fd);
-		execve(cmd->cmd_param[0], cmd->cmd_param, data->env);
+		execve(cmd->cmd_param[0], cmd->cmd_param, data->test);
 	}
 	else
 	{
