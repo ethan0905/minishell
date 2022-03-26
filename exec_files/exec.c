@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/25 17:06:12 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/23 16:08:55 by achane-l         ###   ########.fr       */
+/*   Created: 2022/03/23 16:22:27 by achane-l          #+#    #+#             */
+/*   Updated: 2022/03/26 20:54:26 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ bool	is_built_in(char *cmd)
 {
 	if (ft_strcmp("echo", cmd) == 0 || ft_strcmp("env", cmd) == 0 \
 	|| ft_strcmp("export", cmd) == 0 || ft_strcmp("pwd", cmd) == 0 \
-	|| ft_strcmp("exit", cmd) == 0 || ft_strcmp("cd", cmd) == 0)
+	|| ft_strcmp("exit", cmd) == 0 || ft_strcmp("cd", cmd) == 0 \
+	|| ft_strcmp("unset", cmd) == 0)
 		return (true);
 	return (false);
 }
@@ -25,7 +26,7 @@ bool	command_exist(t_data *data, t_cmd *cmd)
 {
 	char	**paths;
 
-	paths = init_paths(data->env);
+	paths = init_paths(data->test);
 	if (paths == NULL)
 		return (false);
 	if (check_path_cmd(cmd, paths) == 1)
@@ -37,7 +38,7 @@ bool	command_exist(t_data *data, t_cmd *cmd)
 	return (false);
 }
 
-int	launch_built_in(t_cmd *cmd)
+int	launch_built_in(t_data *data, t_cmd *cmd)
 {
 	int	ret;
 	int	save_stdout;
@@ -52,6 +53,14 @@ int	launch_built_in(t_cmd *cmd)
 		ret = ft_echo(cmd->cmd_param);
 	else if (ft_strcmp("pwd", cmd->cmd_param[0]) == 0)
 		ret = ft_pwd();
+	else if (ft_strcmp("cd", cmd->cmd_param[0]) == 0)
+		ret = ft_cd(data, cmd->cmd_param);
+	else if (ft_strcmp("env", cmd->cmd_param[0]) == 0)
+		ret = ft_env(data->test);
+	else if (ft_strcmp("export", cmd->cmd_param[0]) == 0)
+		ret = ft_export(data, cmd->cmd_param[1]);// executer plusieurs fois si plusieur var
+	else if (ft_strcmp("unset", cmd->cmd_param[0]) == 0)
+		ret = ft_unset(data, cmd->cmd_param[1]);// executer plusieurs fois si plusieur var
 	if (cmd->outfile >= 0)
 	{
 		dup2(save_stdout, 1);
@@ -79,7 +88,7 @@ int	exec(t_data *data)
 	cmds = data->cmd;
 	if (cmds && cmds->skip_cmd == false && !cmds->next \
 	&& is_built_in(cmds->cmd_param[0]))
-		data->exit_code = launch_built_in(cmds);
+		data->exit_code = launch_built_in(data, cmds);
 	else
 	{
 		while (cmds)

@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
+/*   By: esafar <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/02/28 17:45:18 by achane-l         ###   ########.fr       */
+/*   Created: 2021/05/23 11:20:54 by esafar            #+#    #+#             */
+/*   Updated: 2021/06/04 09:33:35 by esafar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "built-in.h"
-#include "../minishell.h"
+#include "utils.h"
 
-int	ft_pwd(void)
+void	ft_putstr_fd(char *s, int fd)
 {
-	char cwd[PATH_MAX];
+	int	i;
 
-	if (getcwd(cwd, PATH_MAX))
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i] != '\0')
 	{
-		printf("%s\n", cwd);
-		return (1);
+		write(fd, &s[i], 1);
+		i++;
 	}
-	else
-		return (-1);
 }

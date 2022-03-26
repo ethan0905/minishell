@@ -22,83 +22,31 @@ static int	count_nb_arg(char **params)
 	return (count);
 }
 
-static void	update_oldpwd(t_env *env)
+static void	update_oldpwd(t_data *data)
 {
 	char	cwd[PATH_MAX];
 	char	*oldpwd;
 
 	if (getcwd(cwd, PATH_MAX) == NULL)
-		return (-1);
+		return;
 	oldpwd = ft_strjoin("OLDPWD=", cwd);
 	if (!oldpwd)
-		return (-1);
-	ft_export(env, oldpwd);
+		return;
+	ft_export(data, oldpwd);
 	free(oldpwd);
 }
 
-static char *get_env_path(t_env *env, char *find)
-{
-	char	*path;
-	while (env)
-	{
-		if (check_env_val(env->line, find) == 1)
-		{
-			path = ft_strdup(&(env->line + ft_strlen(find)));
-			return (path);
-		}
-		env = env->next;
-	}
-	return (NULL);
-}
-
-static int	go_to_path(int option, t_env *env)
-{
-	char *path;
-	int	ret;
-
-	if (option == 0)
-	{
-		update_oldpwd(env);
-		path = get_env_path(env, "HOME=");
-		if (!path)
-		{
-			return(-1); //"NOT SET HOME"
-		}
-		
-	}
-	else if (option == 1)
-	{
-		update_oldpwd(env);
-		path = get_env_path(env, "OLDPWD=");
-		if (!path)
-		{
-			return(-1); //"NOT SET OLDPWD"
-		}
-	}
-	ret = chdir(path);
-	free(path);
-	return (ret);
-}
-
-int	ft_cd(char **params, t_env *env)
+int	ft_cd(t_data *data, char **params)
 {
 	int ret;
 
 	if (count_nb_arg(params) <= 2)
 	{
-		if (params[1])
-			return (go_to_path(0, env));
-		else if (ft_strcmp(params[1], "-") == 0)
-			return (go_to_path(1, env));
-		else
-		{
-			update_oldpwd(env);
-			ret = chdir(params[1]);
-			if (ret < 0)
-				ret *= -1;
-		}
+		update_oldpwd(data);
+		ret = chdir(params[1]);
+		if (ret < 0)
+			ret *= -1;
 		return (ret);
 	}
-	else
-		return (1);
+	return (1);
 }

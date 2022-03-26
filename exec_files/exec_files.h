@@ -49,7 +49,7 @@ int		check_path_cmd(t_cmd *my_cmd, char **paths);
 // exec.c
 bool	is_built_in(char *cmd);
 bool	command_exist(t_data *data, t_cmd *cmd);
-int		launch_built_in(t_cmd *cmd);
+int		launch_built_in(t_data *data, t_cmd *cmd);
 void	launch_cmd(t_data *data, t_cmd *cmd, int *fd);
 int		exec(t_data *data);
 
