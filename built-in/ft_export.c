@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-t_env	*add_env_line(char *line)
+t_env	*create_env_line(char *line)
 {
 	t_env *env;
 
@@ -20,31 +20,62 @@ t_env	*add_env_line(char *line)
 	if (!env)
 		return (NULL);
 	env->line = ft_strdup(line);
+	env->prev = NULL;
+	env->next = NULL;
 	return (env);
 }
 
-t_env *create_env(char **env)
+void	free_env(t_env *env)
 {
-	int i = 0;
-	t_env *prev;
-	t_env *next;
+	t_env	*current;
 
-	prev = NULL;
-	next = NULL;
-	while (env[i])
+	while (env)
 	{
-		next = add_env_line(env[i]);
-		next->prev = prev;
-		if (prev)
-			prev->next = next;
-		prev = next;
-		i++;
+		current = env;
+		env = env->next;
+		free(current->line);
+		free(current);
 	}
-	if (next)
-		next->next = NULL;
-	while (next && next->prev)
-		next = next->prev;
-	return (next);
+}
+
+void	add_env_line(t_env *env, t_env *new)
+{
+	while (env && env->next)
+		env = env->next;
+	new->prev = env;
+	new->next = NULL;
+	env->next = new;
+}
+
+t_env	*create_env(char **env)
+{
+	t_env	*head;
+	t_env	*new;
+
+	head = NULL;
+	
+	while (*env)
+	{
+		if (!head)
+		{
+			new = create_env_line(*env);
+			if (!new)
+				return (NULL);
+			head = new;
+		}
+		else
+		{
+			new = create_env_line(*env);
+			if (!new)
+			{
+				free_env(head);
+				return (NULL);
+			}
+			add_env_line(head, new);
+		}
+		env++;
+	}
+	return (head);
 }
 
 char *get_syntax(char *str)
@@ -60,6 +91,11 @@ char *get_syntax(char *str)
 		add_char(&dest, str[i++]);
 	if (str[i] == '=')
 		add_char(&dest, str[i++]);
+	else
+	{
+		free(dest);
+		return (0);
+	}
 	while (str[i] && (str[i] != ' ' || c != ' '))
 	{
 		if (c == ' ' && (str[i] == '\'' || str[i] == '\"'))
@@ -103,11 +139,14 @@ char **convert_lst_to_tab(t_data *data)
 {
 	t_env *lst;
 	char **dest;
-	int i = 0;
+	int i;
 
 	dest = NULL;
+	i = 0;
 	lst = data->env;
 	dest = (char **)malloc(sizeof(char *) * (ft_lstlen(lst) + 1));
+	if (!dest)
+		return (NULL);
 	while (lst)
 	{
 		dest[i] = ft_strdup(lst->line);
@@ -118,39 +157,55 @@ char **convert_lst_to_tab(t_data *data)
 	return (dest);
 }
 
-void	free_tab(char **tab)
+int	env_line_already_exist(t_data *data, t_env *new)
 {
-	int i;
+	t_env *head;
+	int		len;
 
-	i = 0;
-	while (tab[i])
-	{
-		if (tab[i])
-			free(tab[i]);
-		i++;
-	}
-//	free(tab);
+	len = 0;
+	head = data->env;
+	while (new->line[len] && new->line[len] != '=')
+		len++;
+	while (head && ft_strncmp(head->line, new->line, len) != 0)
+		head = head->next;
+	if (head == NULL)
+		return (0);
+	if (head->prev)
+		head->prev->next = new;
+	else
+		data->env = new;
+	if (head->next)
+		head->next->prev = new;
+	new->prev = head->prev;
+	new->next = head->next;
+	free(head->line);
+	free(head);
+	return (1);
 }
 
 int	ft_export(t_data *data, char *str)
 {
-	t_env *head;
-	char *new;
+	t_env	*new;
+	char *new_str;
 
-//	printf("ACTION = [EXPORT -> %s]\n", str);
-	head = data->env;
-	while (data->env && data->env->next != NULL)
-		data->env = data->env->next;
-	new = get_syntax(str);	
-//	if (env)
-//		env->next = NULL;
-	if (data->env->next == NULL)
+	new_str = get_syntax(str);
+	if (!new_str)
+		return (-1);
+	new = create_env_line(new_str);
+	if (!new)
 	{
-		data->env->next = add_env_line(new);
-//		env->next->prev = env;
+		free(new_str);
+		return (-1);
 	}
-	data->env = head;
+	free(new_str);
+	if (!data->env)
+		data->env = new;
+	else
+	{
+		if (env_line_already_exist(data, new) == 0)
+			add_env_line(data->env, new);
+		free_tab_str(&data->test, -1);
+	}
 	data->test = convert_lst_to_tab(data);
-//	free_tab(data->test);
 	return (1);
 }

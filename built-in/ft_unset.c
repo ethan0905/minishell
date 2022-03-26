@@ -12,79 +12,58 @@
 
 #include "../minishell.h"
 
-int	look_for_word(t_data *data, char *str, int lenght)
+bool	is_not_a_var_name(char *str)
 {
-	int index;
-	t_env *env;
-
-	index = 0;
-	env = data->env;
-	while (env && env->next)
+	while (str && *str)
 	{
-		if (ft_strncmp(env->line, str, lenght) == 0)
-			break ;
-		env = env->next;
-		index++;
+		if (*str == '=')
+			return (false);
+		str++;
 	}
-	return (index);
+	return (true);
 }
 
-void	reach_good_node(t_data *data, int index)
+void	reach_good_node(t_data *data, char *str)
 {
 	t_env *env;
 	t_env *node_to_unset;
 	
 	env = data->env;
 	node_to_unset = NULL;
-	printf("INDEX MAJEUR: %d\n", index);
-	while (env /*&& env->next != NULL*/ && index > 1)
-	{
-		env = env->next;
-		index--;
-	}
-	if (index == 0)
+	if (env && ft_strncmp(env->line, str, ft_strlen(str)) == 0)
 	{
 		node_to_unset = data->env;
 		data->env = data->env->next;
+		if (data->env)
+			data->env->prev = NULL;
 		free(node_to_unset->line);
 		free(node_to_unset);
 	}
-/*	else if (env && env->next && env->next->next && index == 1)
-	{
-
-		if (env->next)
-		{
-			printf("COUCOU44444444444\n");
-			node_to_unset = env->next;
-			if (node_to_unset->next == NULL)
-				env->next = NULL;
-			else
-				env->next = node_to_unset->next;
-			free(node_to_unset->line);
-			free(node_to_unset);
-		}
-	}*/
 	else
 	{
-		node_to_unset = env->next;
-		env->next = node_to_unset->next;
-		free(node_to_unset->line);
-		free(node_to_unset);
+		while (env)
+		{
+			if (ft_strncmp(env->line, str, ft_strlen(str)) == 0)
+			{
+				node_to_unset = env;
+				env->prev->next = node_to_unset->next;
+				if (env->next != NULL)
+					env->next->prev = node_to_unset->prev;
+				free(node_to_unset->line);
+				free(node_to_unset);
+				break;
+			}
+			env = env->next;
+		}
 	}
 }
 
 int	ft_unset(t_data *data, char *str)
 {
-	int index;
-//	t_env *lala;
-
-	index = 0;
-//	lala = data->env;
-	index = look_for_word(data, str, ft_strlen(str));
-	reach_good_node(data, index);
-	printf("ACTION : [UNSET -> %s]\n", str);
-	fflush(stdout);
-//	free_tab(data->test);
+	if (!data->env || !is_not_a_var_name(str))
+		return (0);
+	reach_good_node(data, str);
+	free_tab_str(&data->test, -1);
 	data->test = convert_lst_to_tab(data); 
 	return (0);
 }
