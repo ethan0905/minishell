@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esafar <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/03/22 15:49:05 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/27 03:42:26 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ int main(int ac, char **av, char **env)
 	{
 		str = readline("\033[0;31m➜ \033[0;33m❖\033[0;m \033[0;96mminishell\033[0;m \033[0;33m❖ \033[0;m");
 		if (str == NULL)
+		{
+			free_tab_str(&data.test, -1);
+			free_env(data.env);
 			return 0;
+		}
 		add_history(str);
 		if ((ft_strlen(str) != 0) && parse(&data, str))
 		{
