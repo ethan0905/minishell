@@ -6,33 +6,31 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:35:53 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/23 16:56:59 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/27 04:21:31 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./exec_files.h"
 
-void	exit_process(t_data *data, t_cmd *cmd, int *fd)
+void	exit_process(t_data *data, int *fd)
 {
-	t_env	*current;
+	t_cmd	*current;
 
-	if (cmd->infile >= 0)
-		close(cmd->infile);
-	if (cmd->outfile >= 0)
-		close(cmd->outfile);
+	current = data->cmd;
+	while (current)
+	{
+		if (current->infile >= 0)
+			close(current->infile);
+		if (current->outfile >= 0)
+			close(current->outfile);
+		current = current->next;
+	}
 	close(fd[0]);
 	close(fd[1]);
 	free_cmd(&data->cmd);
 	free_lst(data);
 	free_tab_str(&data->test, -1);
-	//free env
-	while (data->env)
-	{
-		current = data->env;
-		data->env = data->env->next;
-		free(current->line);
-		free(current);
-	}
+	free_env(data->env);
 	exit(-1);
 }
 
@@ -72,7 +70,7 @@ void	child_process(t_data *data, t_cmd *cmd, int *fd)
 		write (1, cmd->cmd_param[0], ft_strlen(cmd->cmd_param[0]));
 		write (1, ": command not found\n", 20);
 	}
-	exit_process(data, cmd, fd);
+	exit_process(data, fd);
 }
 
 void	parent_process(t_cmd *cmd, int *fd)
