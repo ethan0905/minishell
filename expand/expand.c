@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/02/28 17:45:18 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/27 04:30:16 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,9 @@ int	check_env(t_data *data, t_token *token, int i)
 		token->str = ft_strdup(expand.line);
 	else
 		token->str = ft_strdup("");
+	free(expand.dest); //a verif
+	free(expand.expand);// a verif
+	free(expand.line);// a verif
 	return (i);
 }
 
