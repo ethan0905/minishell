@@ -15,6 +15,9 @@ NAME = minishell
 SRCS = ./main.c \
 	./parsing/check_quotes.c \
 	./parsing/parse.c \
+	./parsing/get_token_type.c \
+	./parsing/separators.c \
+	./parsing/add_token_utils.c \
 	./parsing/signal.c \
 	./expand/expand.c \
 	./utils/ft_strlen.c \

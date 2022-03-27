@@ -37,6 +37,13 @@
 # define ARG 		7	//"|"
 # define DOLLAR 	8	//"$"
 
+typedef struct s_quote
+{
+	int lock;
+	bool simpleq;
+	bool doubleq;
+}			t_quote;
+
 typedef struct s_token
 {
 	char *str;
@@ -80,7 +87,15 @@ typedef struct s_expand
 	int		expand_or_not;
 }			t_expand;
 
-void	parse(t_data *data, char *str);
+int		parse(t_data *data, char *str);
+t_token	*add_token(char *str, int *j);
+void	add_char(char **actual, char c);
+void	add_char_and_move(t_token *token, char *str, int *j);
+void	reset_char(char *c, int *j);
+int	check_unclosed_quote(char *str);
+void	get_type(t_token *token, int sep);
+int	ignore_separator(char *str, int i);
+void	skip_space(char *str, int *i);
 void	control_c(int code);
 void	control_d(int code);
 
@@ -92,8 +107,6 @@ t_env *create_env(char **env);
 char **convert_lst_to_tab(t_data *data);
 
 void	free_tab(char **tab);
-void	add_char(char **actual, char c);
 void	free_lst(t_data *data);
 
-extern t_signal sig;
 #endif
