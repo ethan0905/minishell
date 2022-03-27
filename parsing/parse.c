@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/03/07 15:49:42 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/03/27 04:13:01 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ t_token	*add_token(char *str, int *j)
 	token = (t_token *)malloc(sizeof(t_token));
 	if(!token)
 		return (NULL);
+	token->type = 0;
 	token->str = NULL;
+	// token->prev = NULL;
+	// token->next = NULL;
 	while (str[*j] && (str[*j] != ' ' || c != ' '))
 	{
 		if (c == ' ' && (str[*j] == '\'' || str[*j] == '\"'))
@@ -58,13 +61,14 @@ t_token	*add_token(char *str, int *j)
 
 t_token *create_token_lst(char *str)
 {
-	int i = 0;
-	int sep = 0;
+	int i;
+	int sep;
 	t_token *prev;
 	t_token *next;
 
 	prev = NULL;
 	next = NULL;
+	i = 0;
 	skip_space(str, &i);
 	while (str[i])
 	{
