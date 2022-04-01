@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 16:22:27 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/26 20:54:26 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/02 01:20:51 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ bool	command_exist(t_data *data, t_cmd *cmd)
 int	launch_built_in(t_data *data, t_cmd *cmd)
 {
 	int	ret;
+	int	i;
 	int	save_stdout;
 
 	ret = 0;
@@ -58,9 +59,17 @@ int	launch_built_in(t_data *data, t_cmd *cmd)
 	else if (ft_strcmp("env", cmd->cmd_param[0]) == 0)
 		ret = ft_env(data->test);
 	else if (ft_strcmp("export", cmd->cmd_param[0]) == 0)
-		ret = ft_export(data, cmd->cmd_param[1]);// executer plusieurs fois si plusieur var
+	{
+		i = 0;
+		while (cmd->cmd_param[++i])
+			ret = ft_export(data, cmd->cmd_param[i]);
+	}
 	else if (ft_strcmp("unset", cmd->cmd_param[0]) == 0)
-		ret = ft_unset(data, cmd->cmd_param[1]);// executer plusieurs fois si plusieur var
+	{
+		i = 0;
+		while (cmd->cmd_param[++i])
+			ret = ft_unset(data, cmd->cmd_param[i]);
+	}
 	if (cmd->outfile >= 0)
 	{
 		dup2(save_stdout, 1);
