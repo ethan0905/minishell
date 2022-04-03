@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 16:22:27 by achane-l          #+#    #+#             */
-/*   Updated: 2022/04/02 01:20:51 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/02 01:57:19 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,15 @@ int	launch_built_in(t_data *data, t_cmd *cmd)
 		i = 0;
 		while (cmd->cmd_param[++i])
 			ret = ft_unset(data, cmd->cmd_param[i]);
+	}
+	else if (ft_strcmp("exit", cmd->cmd_param[0]) == 0)
+	{
+		if (cmd->outfile >= 0)
+		{
+			dup2(save_stdout, 1);
+			close(save_stdout);
+		}
+		ft_exit(data, cmd);
 	}
 	if (cmd->outfile >= 0)
 	{

@@ -6,7 +6,7 @@
 #    By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 17:04:03 by esafar            #+#    #+#              #
-#    Updated: 2022/03/07 16:04:02 by achane-l         ###   ########.fr        #
+#    Updated: 2022/04/02 01:54:32 by achane-l         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCS = ./main.c \
 	./built-in/ft_export.c \
 	./built-in/ft_unset.c \
 	./built-in/ft_cd.c \
+	./built-in/ft_exit.c \
 	./exec_files/exec.c \
 	./exec_files/get_cmds.c \
 	./exec_files/get_files.c \

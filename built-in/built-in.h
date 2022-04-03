@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 14:56:36 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/27 01:34:44 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/02 02:01:56 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ int	    ft_export(t_data *data, char *str);
 int     ft_unset(t_data *data, char *str);
 int     ft_echo(char **args);
 int     ft_cd(t_data *data, char **params);
+void	ft_exit(t_data *data, struct s_cmd *cmd);
 
 #endif
