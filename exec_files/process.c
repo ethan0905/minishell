@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:35:53 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/27 04:21:31 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/02 02:19:34 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,11 @@ void	child_process(t_data *data, t_cmd *cmd, int *fd)
 {
 	if (is_built_in(cmd->cmd_param[0]))
 	{
+		close(fd[0]);
 		if (cmd->outfile < 0 && cmd->next)
 			cmd->outfile = fd[1];
+		else
+			close(fd[1]);
 		launch_built_in(data, cmd);
 	}
 	else if (command_exist(data, cmd))
