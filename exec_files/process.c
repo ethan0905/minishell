@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:35:53 by achane-l          #+#    #+#             */
-/*   Updated: 2022/04/02 02:19:34 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/04 02:32:43 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	exit_process(t_data *data, int *fd)
 	free_lst(data);
 	free_tab_str(&data->test, -1);
 	free_env(data->env);
-	exit(-1);
+	exit(data->exit_code);
 }
 
 void	redirect_in_out(t_cmd *cmd, int *fd)
@@ -54,7 +54,9 @@ void	redirect_in_out(t_cmd *cmd, int *fd)
 
 void	child_process(t_data *data, t_cmd *cmd, int *fd)
 {
-	if (is_built_in(cmd->cmd_param[0]))
+	if (cmd->skip_cmd)
+		data->exit_code = 1;
+	else if (is_built_in(cmd->cmd_param[0]))
 	{
 		close(fd[0]);
 		if (cmd->outfile < 0 && cmd->next)
@@ -67,11 +69,13 @@ void	child_process(t_data *data, t_cmd *cmd, int *fd)
 	{
 		redirect_in_out(cmd, fd);
 		execve(cmd->cmd_param[0], cmd->cmd_param, data->test);
+		data->exit_code = 126;
 	}
 	else
 	{
 		write (1, cmd->cmd_param[0], ft_strlen(cmd->cmd_param[0]));
 		write (1, ": command not found\n", 20);
+		data->exit_code = 127;
 	}
 	exit_process(data, fd);
 }
@@ -90,11 +94,14 @@ void	parent_process(t_cmd *cmd, int *fd)
 	return ;
 }
 
-void	wait_all_and_finish(t_cmd *cmds)
+void	wait_all_and_finish(t_data *data, t_cmd *cmds)
 {
+	int	status;
+
 	while (cmds)
 	{
-		waitpid(0, NULL, 0);
+		waitpid(0, &status, 0);
+		data->exit_code = WEXITSTATUS(status); //il faut l'exit code de la derniere commande
 		if (cmds->outfile >= 0)
 			close(cmds->outfile);
 		if (cmds->infile >= 0)

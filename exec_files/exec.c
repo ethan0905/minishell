@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 16:22:27 by achane-l          #+#    #+#             */
-/*   Updated: 2022/04/02 01:57:19 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/03 20:38:52 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,37 +38,35 @@ bool	command_exist(t_data *data, t_cmd *cmd)
 	return (false);
 }
 
-int	launch_built_in(t_data *data, t_cmd *cmd)
+void	launch_built_in(t_data *data, t_cmd *cmd)
 {
-	int	ret;
 	int	i;
 	int	save_stdout;
 
-	ret = 0;
 	if (cmd->outfile >= 0)
 	{
 		save_stdout = dup(1);
 		dup2(cmd->outfile, 1);
 	}
 	if (ft_strcmp("echo", cmd->cmd_param[0]) == 0)
-		ret = ft_echo(cmd->cmd_param);
+		data->exit_code = ft_echo(cmd->cmd_param);
 	else if (ft_strcmp("pwd", cmd->cmd_param[0]) == 0)
-		ret = ft_pwd();
+		data->exit_code = ft_pwd();
 	else if (ft_strcmp("cd", cmd->cmd_param[0]) == 0)
-		ret = ft_cd(data, cmd->cmd_param);
+		data->exit_code = ft_cd(data, cmd->cmd_param);
 	else if (ft_strcmp("env", cmd->cmd_param[0]) == 0)
-		ret = ft_env(data->test);
+		data->exit_code = ft_env(data->test);
 	else if (ft_strcmp("export", cmd->cmd_param[0]) == 0)
 	{
 		i = 0;
 		while (cmd->cmd_param[++i])
-			ret = ft_export(data, cmd->cmd_param[i]);
+			data->exit_code = ft_export(data, cmd->cmd_param[i]);
 	}
 	else if (ft_strcmp("unset", cmd->cmd_param[0]) == 0)
 	{
 		i = 0;
 		while (cmd->cmd_param[++i])
-			ret = ft_unset(data, cmd->cmd_param[i]);
+			data->exit_code = ft_unset(data, cmd->cmd_param[i]);
 	}
 	else if (ft_strcmp("exit", cmd->cmd_param[0]) == 0)
 	{
@@ -84,7 +82,6 @@ int	launch_built_in(t_data *data, t_cmd *cmd)
 		dup2(save_stdout, 1);
 		close(save_stdout);
 	}
-	return (ret);
 }
 
 void	launch_cmd(t_data *data, t_cmd *cmd, int *fd)
@@ -106,23 +103,23 @@ int	exec(t_data *data)
 	cmds = data->cmd;
 	if (cmds && cmds->skip_cmd == false && !cmds->next \
 	&& is_built_in(cmds->cmd_param[0]))
-		data->exit_code = launch_built_in(data, cmds);
+		launch_built_in(data, cmds);
 	else
 	{
 		while (cmds)
 		{
-			if (cmds->skip_cmd)
-				cmds = cmds->next;
-			else
-			{
+			// if (cmds->skip_cmd)
+			// 	data->exit_code = 1;
+			// else
+			// {
 				if (pipe(fd) == -1)
 					return (-1);
 				launch_cmd(data, cmds, fd);
-				cmds = cmds->next;
-			}
+			// }
+			cmds = cmds->next;
 		}
+		wait_all_and_finish(data, data->cmd);
 	}
-	wait_all_and_finish(data->cmd);
 	free_cmd(&data->cmd);
 	return (1);
 }
