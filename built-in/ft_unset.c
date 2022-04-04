@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/02/28 17:45:18 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/03 16:42:34 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	reach_good_node(t_data *data, char *str)
 int	ft_unset(t_data *data, char *str)
 {
 	if (!data->env || !is_not_a_var_name(str))
-		return (0);
+		return (1);
 	reach_good_node(data, str);
 	free_tab_str(&data->test, -1);
 	data->test = convert_lst_to_tab(data); 
