@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:35:53 by achane-l          #+#    #+#             */
-/*   Updated: 2022/04/04 02:32:43 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/05 16:34:43 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,16 @@ void	parent_process(t_cmd *cmd, int *fd)
 void	wait_all_and_finish(t_data *data, t_cmd *cmds)
 {
 	int	status;
+	int	pid;
 
 	while (cmds)
 	{
-		waitpid(0, &status, 0);
-		data->exit_code = WEXITSTATUS(status); //il faut l'exit code de la derniere commande
+		pid = waitpid(0, &status, 0);
+		if (pid == data->signal.pid)
+		{
+			if (WIFEXITED(status))
+				data->exit_code = WEXITSTATUS(status); //il faut l'exit code de la derniere commande
+		}
 		if (cmds->outfile >= 0)
 			close(cmds->outfile);
 		if (cmds->infile >= 0)

@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 16:22:27 by achane-l          #+#    #+#             */
-/*   Updated: 2022/04/03 20:38:52 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/05 16:34:24 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,9 @@ int	exec(t_data *data)
 	{
 		while (cmds)
 		{
-			// if (cmds->skip_cmd)
-			// 	data->exit_code = 1;
-			// else
-			// {
-				if (pipe(fd) == -1)
-					return (-1);
-				launch_cmd(data, cmds, fd);
-			// }
+			if (pipe(fd) == -1)
+				return (-1);
+			launch_cmd(data, cmds, fd);
 			cmds = cmds->next;
 		}
 		wait_all_and_finish(data, data->cmd);
