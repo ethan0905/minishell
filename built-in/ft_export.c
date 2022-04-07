@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/03/27 01:16:10 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/03 16:40:18 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,12 +190,12 @@ int	ft_export(t_data *data, char *str)
 
 	new_str = get_syntax(str);
 	if (!new_str)
-		return (-1);
+		return (1);
 	new = create_env_line(new_str);
 	if (!new)
 	{
 		free(new_str);
-		return (-1);
+		return (1);
 	}
 	free(new_str);
 	if (!data->env)
@@ -207,5 +207,7 @@ int	ft_export(t_data *data, char *str)
 		free_tab_str(&data->test, -1);
 	}
 	data->test = convert_lst_to_tab(data);
-	return (1);
+	if (!data->test)
+		return (1);
+	return (0);
 }

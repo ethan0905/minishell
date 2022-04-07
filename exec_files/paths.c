@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 13:28:29 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/22 14:51:32 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/03 17:31:52 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	check_path_cmd(t_cmd *my_cmd, char **paths)
 	while (paths && paths[i])
 	{
 		path_cmd = ft_strjoin(paths[i], end_path);
-		if (access(path_cmd, X_OK) == 0)
+		if (access(path_cmd, F_OK) == 0)
 		{
 			free(end_path);
 			free(my_cmd->cmd_param[0]);
