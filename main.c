@@ -6,11 +6,13 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/03/27 03:42:26 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/07 18:30:20 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
 
 int main(int ac, char **av, char **env)
 {
@@ -37,6 +39,7 @@ int main(int ac, char **av, char **env)
 		add_history(str);
 		if ((ft_strlen(str) != 0) && parse(&data, str))
 		{
+			//print_token_list(data.begin);
 			data.cmd = init_cmds(data.begin);
 			exec(&data);
 			free_lst(&data);

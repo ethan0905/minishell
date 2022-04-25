@@ -6,26 +6,26 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/03/27 04:32:30 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/09 00:13:46 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	get_type(t_token *token, int sep)
+void	get_type(t_token *token)
 {
-	if (ft_strcmp(token->str, "<") == 0 && sep == 0)
+	if (token->type == DOLLAR)
+		return;
+	else if (ft_strcmp(token->str, "<") == 0)
 		token->type = INPUT;
-	else if (ft_strcmp(token->str, "<<") == 0 && sep == 0)
+	else if (ft_strcmp(token->str, "<<") == 0)
 		token->type = HEREDOC;
-	else if (ft_strcmp(token->str, ">") == 0 && sep == 0)
+	else if (ft_strcmp(token->str, ">") == 0)
 		token->type = TRUNC;
-	else if (ft_strcmp(token->str, ">>") == 0 && sep == 0)
+	else if (ft_strcmp(token->str, ">>") == 0)
 		token->type = APPEND;
-	else if (ft_strcmp(token->str, "|") == 0 && token->type != ARG && sep == 0)
+	else if (ft_strcmp(token->str, "|") == 0)
 		token->type = PIPE;
-	else if (ft_strcmp(token->str, "$") == 0 && sep == 0)
-		token->type = DOLLAR;
 	else if (token->prev == NULL || token->prev->type == PIPE) //temporaire
 		token->type = CMD;
 	else

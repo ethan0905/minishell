@@ -6,32 +6,44 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/03/27 04:33:28 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/07 18:28:41 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	skip_space(char *str, int *i)
+bool	is_space(char c)
 {
-	while (str[*i] && (str[*i] == ' ' || str[*i] == '\n' || str[*i] == '\r' || str[*i] == '\f' || str[*i] == '\t' || str[*i] == '\v'))
-		(*i)++;
+	if (c && (c == ' ' || c == '\n' || c == '\r' || c == '\f' || c == '\t' || c == '\v'))
+		return (true);
+	return (false);
 }
 
-int	ignore_separator(char *str, int i)
+void	skip_space(char **line)
 {
-	if (str[i] && str[i] == '\\' && str[i+1] && str[i+1] == '|')
+	char *str;
+
+	str = *line;
+	while (is_space(*str))
+		str++;
+	*line = str;
+}
+
+int	ignore_separator(char *str)
+{
+
+	if (*str && *str == '\\' && *(str + 1) && *(str + 1) == '|')
 		return (1);
-	else if (str[i] && str[i] == '\\' && str[i+1] && str[i+1] == '>')
+	else if (*str && *str == '\\' && *(str + 1) && *(str + 1) == '>')
 	{
-		if (str[i+2] && str[i+2] == '>')
+		if (*(str + 2) && *(str + 2) == '>')
 			return (1);
 	}
-	else if (str[i] && str[i] == '\\' && str[i+1] && str[i+1] == '>' && str[i+2] && str[i+2] == '>')
+	else if (*str && *str == '\\' && *(str + 1) && *(str + 1) == '>' && *(str + 2) && *(str + 2) == '>')
 		return (1);
-	else if (str[i] && str[i] == '\\' && str[i+1] && str[i+1] == ';')
+	else if (*str && *str == '\\' && *(str + 1) && *(str + 1) == ';')
 		return (1);
-	else if (str[i] && str[i] == '\\' && str[i+1] && str[i+1] == '$')
+	else if (*str && *str == '\\' && *(str + 1) && *(str + 1) == '$')
 		return (1);
 	return (0);
 }
