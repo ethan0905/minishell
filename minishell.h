@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 18:49:27 by esafar            #+#    #+#             */
-/*   Updated: 2022/03/01 17:14:03 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/08 23:32:19 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,15 @@ typedef struct s_expand
 }			t_expand;
 
 int		parse(t_data *data, char *str);
-t_token	*add_token(char *str, int *j);
+void	add_token(t_data *data, char **str);
 void	add_char(char **actual, char c);
 void	add_char_and_move(t_token *token, char *str, int *j);
 void	reset_char(char *c, int *j);
 int	check_unclosed_quote(char *str);
-void	get_type(t_token *token, int sep);
-int	ignore_separator(char *str, int i);
-void	skip_space(char *str, int *i);
+void	get_type(t_token *token);
+int	ignore_separator(char *str);
+void	skip_space(char **str);
+bool	is_space(char c);
 void	control_c(int code);
 void	control_d(int code);
 
