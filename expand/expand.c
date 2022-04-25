@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/03/27 04:30:16 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/09 00:29:12 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,21 @@ void	expand_token(t_data *data)
 	while (token)
 	{
 		i = 0;
-		while (token->str && token->str[i])
+		if (token->type == DOLLAR)
 		{
-			if (token->str[i] == '$')
+			while (token->str && token->str[i])
 			{
-				i = check_env(data, token, i);
+				if (token->str[i] == '$')
+				{
+					i = check_env(data, token, i);
+				}
+				puts("PROBLEME");
+				i++;
 			}
-			i++;
+			if (token->prev == NULL || token->prev->type == PIPE) //temporaire
+				token->type = CMD;
+			else
+				token->type = ARG;
 		}
 		token = token->next;
 	}
