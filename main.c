@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/04/07 18:30:20 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/29 00:26:20 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int main(int ac, char **av, char **env)
 	data.env = create_env(data.envp);
 	data.test = convert_lst_to_tab(&data);
 	data.exit_code = 42;
+	data.signal.pid = 42;
 	signal(SIGINT, &control_c);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)

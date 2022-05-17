@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/04/13 12:33:43 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/17 17:16:53 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ bool	is_special_char(char *str)
 			return (true);
 		else if (ft_strncmp(str, "|", 1) == 0)
 			return (true);
-		else if (ft_strncmp(str, " ", 1) == 0)
-			return (true);
 	}
 	return (false);
 }
@@ -71,6 +69,32 @@ char	*get_special_char(char **str)
 	return (special_char);
 }
 
+int	get_len_of_env_var(char *env)
+{
+	int i;
+
+	i = 0;
+	while(env[i] && env[i] != '=')
+		i++;
+	return (i);
+}
+
+char	*my_getenv(t_data *data, char *expand_to_search)
+{
+	int	i;
+	int expand_len;
+
+	i = 0;
+	expand_len = ft_strlen(expand_to_search);
+	while (data->test[i])
+	{
+		if (ft_strncmp(expand_to_search, data->test[i], expand_len) == 0 && get_len_of_env_var(data->test[i]) == expand_len)
+			return (ft_strdup(data->test[i] + ft_strlen(expand_to_search) + 1));
+		i++;
+	}
+	return (NULL);
+}
+
 void	expand(t_data *data, t_token *token, char **line, bool is_in_double_quote)
 {
 	char *expand_to_search;
@@ -80,44 +104,58 @@ void	expand(t_data *data, t_token *token, char **line, bool is_in_double_quote)
 
 	str = *line;
 	//expand_to_search = ft_strdup("");
+	expand_to_search = NULL;
 	expand_value = NULL;
 	tmp = NULL;
-	if (*(str + 1) == '\'' || * (str + 1) == '\"')
+	str++;
+	if (*str == '\'' || (*str == '\"' && !is_in_double_quote))// and is not in double quote
+	{
+		*line = str;
 		return ;
-	if (*(str + 1) == '?')
+	}
+	if (*str == '?')
 	{
 		expand_value = ft_itoa(data->exit_code);
 		str++;
 	}
+	else if (*str == '$')
+	{
+		expand_value = ft_itoa(data->signal.pid);
+		str++;
+	}
 	else
 	{
-		expand_to_search = ft_strdup("");
+		//expand_to_search = ft_strdup("");
 		if (is_in_double_quote)
 		{
-			str++;
-			while (*str != '\"')
+			while (*str != '\"' && (!is_special_char(str) && !is_space(*str)))
+			{
+				add_char(&expand_to_search, *str);
+				str++;
+			}
+			printf("suiote |%s|\n", str);
+		}
+		else
+		{
+			puts("PASSER");
+			while (*str && (*str != '\'' && *str != '\"' && *str != '$') && (!is_special_char(str) && !is_space(*str)))
 			{
 				add_char(&expand_to_search, *str);
 				str++;
 			}
 		}
-		else
-		{
-			while (*(str + 1) && (!is_special_char(str + 1) || !is_space(*(str + 1))))
-			{
-				add_char(&expand_to_search, *(str + 1));
-				str++;
-			}
-		}
 		if (expand_to_search)
 		{
-			expand_value = getenv(expand_to_search);
+			printf("expand |%s|\n", expand_to_search);
+			expand_value = my_getenv(data, expand_to_search);
 			if (expand_value)
 				expand_value = ft_strdup(expand_value);
 			else
 				expand_value = ft_strdup("");
 			free(expand_to_search);
 		}
+		else
+			expand_value = ft_strdup("$");// avoir le else
 	}
 	if (token->str)
 	{
@@ -136,6 +174,7 @@ void	get_str_token(t_data *data, t_token *token, char **line)
 	char	*str;
 	bool	is_in_single_quote;
 	bool	is_in_double_quote;
+	bool	expand_launch;
 
 	str = *line;
 	is_in_single_quote = false;
@@ -143,6 +182,7 @@ void	get_str_token(t_data *data, t_token *token, char **line)
 	token->str = NULL;
 	while(*str)
 	{
+		expand_launch = false;
 		if (*str == '\'' && !is_in_single_quote && !is_in_double_quote)
 			is_in_single_quote = true;
 		else if (*str == '\"' && !is_in_single_quote && !is_in_double_quote)
@@ -152,7 +192,10 @@ void	get_str_token(t_data *data, t_token *token, char **line)
 		else if (*str == '\"' && is_in_double_quote && !is_in_single_quote)
 			is_in_double_quote = false;
 		else if (*str == '$' && *(str + 1) && !is_in_single_quote)
+		{
 			expand(data, token, &str, is_in_double_quote);
+			expand_launch = true;
+		}
 		else if ((!is_in_double_quote && !is_in_single_quote) && (is_special_char(str) || is_space(*str)))
 		{
 			if (!is_space(*str) && token->str == NULL)
@@ -162,11 +205,12 @@ void	get_str_token(t_data *data, t_token *token, char **line)
 		}
 		else
 		{
-			if (*str == '\\' && *(str + 1))
+			if (*str == '\\' && *(str + 1))//A voir pour enlever backslash
 				str++;
 			add_char(&token->str, *str);// checker si c'est char 0
 		}
-		str++;// checker si c'est char 0
+		if (!expand_launch)
+			str++;// checker si c'est char 0
 	}
 	*line = str;
 }
@@ -220,9 +264,102 @@ void	print_token_list(t_token *token_list)
 	}
 }
 
+char *expand_result(t_data *data,char **line, bool is_in_double_quote)
+{
+	char *expand_to_search;
+	char	*expand_value;
+	char	*str;
+
+	str = *line;
+	expand_to_search = NULL;
+	expand_value = NULL;
+	str++;
+	if (*str == '\'' || (*str == '\"' && !is_in_double_quote))// and is not in double quote
+	{
+		*line = str;
+		return ("");
+	}
+	if (*str == '?')
+	{
+		expand_value = ft_itoa(data->exit_code);
+		str++;
+	}
+	else if (*str == '$')
+	{
+		expand_value = ft_itoa(data->signal.pid);
+		str++;
+	}
+	else
+	{
+		if (is_in_double_quote)
+		{
+			while (*str != '\"' && (!is_special_char(str) && !is_space(*str)))
+			{
+				add_char(&expand_to_search, *str);
+				str++;
+			}
+		}
+		else
+		{
+			while (*str && (*str != '\'' && *str != '\"' && *str != '$') && (!is_special_char(str) && !is_space(*str)))
+			{
+				add_char(&expand_to_search, *str);
+				str++;
+			}
+		}
+		if (expand_to_search)
+		{
+			expand_value = my_getenv(data, expand_to_search);
+			if (expand_value)
+				expand_value = ft_strdup(expand_value);
+			else
+				expand_value = ft_strdup("");
+			free(expand_to_search);
+		}
+		else
+			expand_value = ft_strdup("$");// avoir le else
+	}
+	*line = str;
+	return (expand_value);
+}
+
+char *expand_str(t_data *data, char *str)
+{
+	char	*final_str;
+	bool is_in_single_quote;
+	bool is_in_double_quote;
+	bool expand_exec;
+
+	is_in_single_quote = false;
+	is_in_double_quote = false;
+	final_str = ft_strdup("");
+	while (*str)
+	{
+		expand_exec = false;
+		if (*str == '\'' && !is_in_single_quote && !is_in_double_quote)
+			is_in_single_quote = true;
+		else if (*str == '\"' && !is_in_single_quote && !is_in_double_quote)
+			is_in_double_quote = true;
+		else if (*str == '\'' && is_in_single_quote && !is_in_double_quote)
+			is_in_single_quote = false;
+		else if (*str == '\"' && is_in_double_quote && !is_in_single_quote)
+			is_in_double_quote = false;
+		if (*str == '$' && ((*str + 1) && ((*str + 1) != '\'' && (*str + 1) != '\"'))&& !is_in_single_quote){
+			expand_exec = true;
+			final_str = ft_strjoin(final_str, expand_result(data, &str, is_in_double_quote));
+		}
+		else
+			add_char(&final_str, *str);
+		if (!expand_exec)
+			str++;
+	}
+	return final_str;
+}
+
 int	parse(t_data *data, char *str)
 {
 //	t_token *token;
+	char *str_parse;
 
 	if (ft_strlen(str) == 0)
 		return (0);
@@ -232,9 +369,10 @@ int	parse(t_data *data, char *str)
 		fflush(stdout);
 		return (0);
 	}
-
-	create_token_lst(data, str);
-	print_token_list(data->begin);
+	str_parse = str;
+	str_parse = expand_str(data, str_parse);
+	create_token_lst(data, str_parse);
+	// print_token_list(data->begin);
 	//expand_token(data);
 /*	token = data->begin;
 

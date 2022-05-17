@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/04/03 16:40:18 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/04/25 18:50:19 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,14 @@ t_env	*create_env(char **env)
 char *get_syntax(char *str)
 {
 	int i;
-	char c;
 	char *dest;
+	bool	is_in_single_quote;
+	bool	is_in_double_quote;
 
-	i = 0;
-	c = ' ';
 	dest = NULL;
+	is_in_single_quote = false;
+	is_in_double_quote = false;
+	i = 0;
 	while (str[i] && str[i] != '=')
 		add_char(&dest, str[i++]);
 	if (str[i] == '=')
@@ -96,28 +98,19 @@ char *get_syntax(char *str)
 		free(dest);
 		return (0);
 	}
-	while (str[i] && (str[i] != ' ' || c != ' '))
+	while (str[i])
 	{
-		if (c == ' ' && (str[i] == '\'' || str[i] == '\"'))
-		{
-			c = str[(i)];
-			i++;
-		}
-		else if (c != ' ' && str[i] == c)
-		{
-			c = ' ';
-			i++;
-		}
-		else if (str[i] == '\\' && i++)
-		{
-			add_char(&dest, str[i]);
-			i++;
-		}
+		if (str[i] == '\'' && !is_in_single_quote && !is_in_double_quote)
+			is_in_single_quote = true;
+		else if (str[i] == '\"' && !is_in_single_quote && !is_in_double_quote)
+			is_in_double_quote = true;
+		else if (str[i] == '\'' && is_in_single_quote && !is_in_double_quote)
+			is_in_single_quote = false;
+		else if (str[i] == '\"' && is_in_double_quote && !is_in_single_quote)
+			is_in_double_quote = false;	
 		else
-		{
 			add_char(&dest, str[i]);
-			i++;
-		}
+		i++;
 	}
 	return (dest);
 }

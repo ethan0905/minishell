@@ -6,11 +6,47 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 14:17:54 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/18 15:45:58 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/17 02:59:27 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./exec_files.h"
+
+// bool	expand_in_heredoc(char **buf)
+// {
+// 	char *final_str;
+// 	char *str;
+
+// 	final_str = NULL;
+// 	str = *buf;
+// 	while (str && *str)
+// 	{
+// 		if (*str == '$')
+// 		{
+			
+// 		}
+// 		add_char(&final_str, *str);
+// 	}
+// }
+
+// void	heredoc_parse(char **buf)
+// {
+// 	char *parse;
+// 	char *str;
+
+// 	str = NULL;
+// 	parse = *buf;
+// 	while (parse && *parse)
+// 	{
+// 		if (*parse == '$')
+// 			ft_strjoin(str, expand_in_heredoc);
+// 		else
+// 			add_char(&str, *parse);
+// 		parse++;
+// 	}
+// 	free(*buf);
+// 	*buf = str;
+// }
 
 int	here_doc(char *word)
 {
