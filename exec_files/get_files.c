@@ -6,15 +6,16 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 14:17:54 by achane-l          #+#    #+#             */
-/*   Updated: 2022/03/18 15:45:58 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/17 19:11:08 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./exec_files.h"
 
-int	here_doc(char *word)
+int	here_doc(t_data *data,char *word)
 {
 	char	*buf;
+	char	*tmp;
 	int		fd;
 
 	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -22,14 +23,17 @@ int	here_doc(char *word)
 		return (-1);
 	while (1)
 	{
+		tmp = NULL;
 		write(1, "> ", 2);
 		if (get_next_line(0, &buf) < 0)
 			exit(0);
 		if (!ft_strncmp(word, buf, ft_strlen(word) + 1))
 			break ;
-		write(fd, buf, ft_strlen(buf));
+		tmp = expand_str(data, buf);
+		write(fd, tmp, ft_strlen(tmp));
 		write(fd, "\n", 1);
 		free(buf);
+		free(tmp);
 	}
 	free(buf);
 	close(fd);
@@ -39,14 +43,14 @@ int	here_doc(char *word)
 	return (fd);
 }
 
-int	open_file(char *filename, int type)
+int	open_file(t_data *data, char *filename, int type)
 {
 	int	fd;
 
 	if (type == INPUT)
 		fd = open(filename, O_RDONLY, 0644);
 	else if (type == HEREDOC)
-		fd = here_doc(filename);
+		fd = here_doc(data, filename);
 	else if (type == TRUNC)
 		fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type == APPEND)
@@ -58,7 +62,7 @@ int	open_file(char *filename, int type)
 	return (fd);
 }
 
-int	get_infile(t_token *token)
+int	get_infile(t_data *data, t_token *token)
 {
 	int		fd;
 
@@ -69,7 +73,7 @@ int	get_infile(t_token *token)
 		{
 			if (fd >= 0)
 				close(fd);
-			fd = open_file(token->next->str, INPUT);
+			fd = open_file(data, token->next->str, INPUT);
 			if (fd == -1)
 				return (-1);
 		}
@@ -77,7 +81,7 @@ int	get_infile(t_token *token)
 		{
 			if (fd >= 0)
 				close(fd);
-			fd = open_file(token->next->str, HEREDOC);
+			fd = open_file(data, token->next->str, HEREDOC);
 			if (fd == -1)
 				return (-1);
 		}
@@ -97,7 +101,7 @@ int	get_outfile(t_token *token)
 		{
 			if (fd >= 0)
 				close(fd);
-			fd = open_file(token->next->str, TRUNC);
+			fd = open_file(NULL, token->next->str, TRUNC);
 			if (fd == -1)
 				return (-1);
 		}
@@ -105,7 +109,7 @@ int	get_outfile(t_token *token)
 		{
 			if (fd >= 0)
 				close(fd);
-			fd = open_file(token->next->str, APPEND);
+			fd = open_file(NULL,token->next->str, APPEND);
 			if (fd == -1)
 				return (-1);
 		}
@@ -114,10 +118,10 @@ int	get_outfile(t_token *token)
 	return (fd);
 }
 
-void	add_file_to_cmd(t_cmd *cmd, t_token *token)
+void	add_file_to_cmd(t_data *data, t_cmd *cmd, t_token *token)
 {
 	cmd->skip_cmd = false;
-	cmd->infile = get_infile(token);
+	cmd->infile = get_infile(data, token);
 	if (cmd->infile == -1)
 	{
 		cmd->skip_cmd = true;

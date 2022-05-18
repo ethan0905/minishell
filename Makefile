@@ -6,19 +6,20 @@
 #    By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 17:04:03 by esafar            #+#    #+#              #
-#    Updated: 2022/04/02 01:54:32 by achane-l         ###   ########.fr        #
+#    Updated: 2022/05/18 15:37:35 by achane-l         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRCS = ./main.c \
-	./parsing/check_quotes.c \
+	./parsing/parse_utils.c \
 	./parsing/parse.c \
-	./parsing/get_token_type.c \
-	./parsing/separators.c \
-	./parsing/add_token_utils.c \
+	./parsing/get_token_str.c \
+	./parsing/special_char_utils.c \
+	./parsing/token_list.c \
 	./parsing/signal.c \
+	./parsing/expand.c\
 	./expand/expand.c \
 	./utils/ft_strlen.c \
 	./utils/ft_strcmp.c \
@@ -29,6 +30,7 @@ SRCS = ./main.c \
 	./utils/ft_strcopy.c \
 	./utils/ft_itoa.c \
 	./utils/ft_putstr_fd.c \
+	./utils/env_utils.c \
 	./built-in/ft_pwd.c \
 	./built-in/ft_env.c \
 	./built-in/ft_echo.c \
