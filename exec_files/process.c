@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:35:53 by achane-l          #+#    #+#             */
-/*   Updated: 2022/04/05 16:34:43 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/18 17:18:55 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	exit_process(t_data *data, int *fd)
 	close(fd[0]);
 	close(fd[1]);
 	free_cmd(&data->cmd);
-	free_lst(data);
+	free_token_lst(data);
 	free_tab_str(&data->test, -1);
 	free_env(data->env);
 	exit(data->exit_code);
@@ -69,6 +69,7 @@ void	child_process(t_data *data, t_cmd *cmd, int *fd)
 	{
 		redirect_in_out(cmd, fd);
 		execve(cmd->cmd_param[0], cmd->cmd_param, data->test);
+		//command_not_executable
 		data->exit_code = 126;
 	}
 	else

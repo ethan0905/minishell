@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 18:49:27 by esafar            #+#    #+#             */
-/*   Updated: 2022/04/08 23:32:19 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/18 15:34:13 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include <readline/history.h>
 #include <stdbool.h>
 #include <signal.h>
-#include "./utils/utils.h"
 #include "./get_next_line/get_next_line.h"
 # include <limits.h>
 
@@ -36,13 +35,6 @@
 # define CMD 		6	//"|"
 # define ARG 		7	//"|"
 # define DOLLAR 	8	//"$"
-
-typedef struct s_quote
-{
-	int lock;
-	bool simpleq;
-	bool doubleq;
-}			t_quote;
 
 typedef struct s_token
 {
@@ -78,6 +70,7 @@ typedef struct s_data
 
 #include "./exec_files/exec_files.h"
 #include "./built-in/built-in.h"
+#include "./utils/utils.h"
 
 typedef struct s_expand
 {
@@ -87,27 +80,27 @@ typedef struct s_expand
 	int		expand_or_not;
 }			t_expand;
 
-int		parse(t_data *data, char *str);
-void	add_token(t_data *data, char **str);
-void	add_char(char **actual, char c);
-void	add_char_and_move(t_token *token, char *str, int *j);
-void	reset_char(char *c, int *j);
-int	check_unclosed_quote(char *str);
+//expands
+char *expand_str(t_data *data, char *str);
+// get token str
+void	get_token_str(t_token *token, char **line);
 void	get_type(t_token *token);
-int	ignore_separator(char *str);
-void	skip_space(char **str);
-bool	is_space(char c);
+//token lst
+bool	create_token_lst(t_data *data, char *str);
+void	free_token_lst(t_data *data);
+//parse utils
+char	*my_getenv(t_data *data, char *expand_to_search);
+int		check_unclosed_quote(char *str);
+void	add_char(char **actual, char c);
+//parse
+int		parse(t_data *data, char *str);
+//signal
 void	control_c(int code);
 void	control_d(int code);
-
-//expands
-void	expand_token(t_data *data);
-int		check_env(t_data *data, t_token *token, int i);
-
-t_env *create_env(char **env);
-char **convert_lst_to_tab(t_data *data);
-
-void	free_tab(char **tab);
-void	free_lst(t_data *data);
+//special char utils
+bool	is_space(char c);
+void	skip_space(char **str);
+bool	is_special_char(char *str);
+char	*get_special_char(char **str);
 
 #endif

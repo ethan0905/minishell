@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 01:29:32 by achane-l          #+#    #+#             */
-/*   Updated: 2022/04/07 02:49:31 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/18 15:11:14 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,20 +64,24 @@ void	ft_exit(t_data *data, struct s_cmd *cmd)
 			close(cmd->outfile);
 		current = current->next;
 	}
-	printf("exit\n");
 	if (cmd->cmd_param[1])
 	{
 		data->exit_code = exitCode(cmd->cmd_param[1]);
 		if (data->exit_code == -2)
+		{
 			data->exit_code *= -1;
+			printf("minishell: exit: argument numerique necessaire\n");
+		}
 		else if (cmd->cmd_param[2] && data->exit_code >= 0)
 		{
 			data->exit_code = 1;
+			printf("minishell: exit: trop d'arguments\n");
 			return ;
 		}
 	}
+	printf("exit\n");
 	if (data->begin)
-		free_lst(data);
+		free_token_lst(data);
 	if (data->env)
 		free_env(data->env);
 	if (data->test)

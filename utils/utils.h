@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 18:49:27 by esafar            #+#    #+#             */
-/*   Updated: 2022/03/04 14:09:59 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/18 15:36:34 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,10 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_substr(char *s, int start, int len);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strcopy(char *src);
+//env_utils
+int     ft_lstlen(t_env *lst);
+char    **convert_lst_to_tab(t_data *data);
+t_env	*create_env_line(char *line);
+t_env	*create_env(char **env);
+void    free_env(t_env *env);
 #endif

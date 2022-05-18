@@ -6,37 +6,11 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/04/25 18:50:19 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/18 15:38:26 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-t_env	*create_env_line(char *line)
-{
-	t_env *env;
-
-	env = (t_env *)malloc(sizeof(t_env));
-	if (!env)
-		return (NULL);
-	env->line = ft_strdup(line);
-	env->prev = NULL;
-	env->next = NULL;
-	return (env);
-}
-
-void	free_env(t_env *env)
-{
-	t_env	*current;
-
-	while (env)
-	{
-		current = env;
-		env = env->next;
-		free(current->line);
-		free(current);
-	}
-}
 
 void	add_env_line(t_env *env, t_env *new)
 {
@@ -47,58 +21,16 @@ void	add_env_line(t_env *env, t_env *new)
 	env->next = new;
 }
 
-t_env	*create_env(char **env)
+static void    get_string(char **dest, char *str)
 {
-	t_env	*head;
-	t_env	*new;
-
-	head = NULL;
-	
-	while (*env)
-	{
-		if (!head)
-		{
-			new = create_env_line(*env);
-			if (!new)
-				return (NULL);
-			head = new;
-		}
-		else
-		{
-			new = create_env_line(*env);
-			if (!new)
-			{
-				free_env(head);
-				return (NULL);
-			}
-			add_env_line(head, new);
-		}
-		env++;
-	}
-	return (head);
-}
-
-char *get_syntax(char *str)
-{
-	int i;
-	char *dest;
+	int		i;
 	bool	is_in_single_quote;
 	bool	is_in_double_quote;
 
-	dest = NULL;
+	i = 0;
 	is_in_single_quote = false;
 	is_in_double_quote = false;
-	i = 0;
-	while (str[i] && str[i] != '=')
-		add_char(&dest, str[i++]);
-	if (str[i] == '=')
-		add_char(&dest, str[i++]);
-	else
-	{
-		free(dest);
-		return (0);
-	}
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == '\'' && !is_in_single_quote && !is_in_double_quote)
 			is_in_single_quote = true;
@@ -109,44 +41,30 @@ char *get_syntax(char *str)
 		else if (str[i] == '\"' && is_in_double_quote && !is_in_single_quote)
 			is_in_double_quote = false;	
 		else
-			add_char(&dest, str[i]);
-		i++;
-	}
-	return (dest);
+			add_char(dest, str[i]);
+        i++;
+    }
 }
 
-int	ft_lstlen(t_env *lst)
+char *get_syntax(char *str)
 {
-	int count;
-
-	count = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		count++;
-	}
-	return(count);
-}
-
-char **convert_lst_to_tab(t_data *data)
-{
-	t_env *lst;
-	char **dest;
 	int i;
+	char *dest;
+
 
 	dest = NULL;
+
 	i = 0;
-	lst = data->env;
-	dest = (char **)malloc(sizeof(char *) * (ft_lstlen(lst) + 1));
-	if (!dest)
-		return (NULL);
-	while (lst)
+	while (str[i] && str[i] != '=')
+		add_char(&dest, str[i++]);
+	if (str[i] == '=')
+		add_char(&dest, str[i++]);
+	else
 	{
-		dest[i] = ft_strdup(lst->line);
-		lst = lst->next;
-		i++;
+		free(dest);
+		return (0);
 	}
-	dest[i] = NULL;
+    get_string(&dest, &str[i]);
 	return (dest);
 }
 

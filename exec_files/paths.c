@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 13:28:29 by achane-l          #+#    #+#             */
-/*   Updated: 2022/04/03 17:31:52 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/18 04:13:40 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,15 @@ char	**init_paths(char **env)
 	int		i;
 
 	i = 0;
+	paths = NULL;
 	while (env[i])
 	{
 		if (check_env_val(env[i], "PATH=") == 1)
 			break ;
 		i++;
 	}
-	paths = ft_split(env[i] + 5, ':');
+	if (env[i])
+		paths = ft_split(env[i] + 5, ':');
 	return (paths);
 }
 
