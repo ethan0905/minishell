@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 14:54:20 by achane-l          #+#    #+#             */
-/*   Updated: 2022/05/18 17:42:35 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/19 13:14:28 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 static t_token	*get_last_token(t_token *token_list)
 {
-	while (token_list  && token_list->next)
+	while (token_list && token_list->next)
 		token_list = token_list->next;
 	return (token_list);
 }
 
 static bool	add_token(t_data *data, char **str)
 {
-	t_token *last_token;
-	t_token *token;
+	t_token	*last_token;
+	t_token	*token;
 
 	token = (t_token *)malloc(sizeof(t_token));
-	if(!token)
+	if (!token)
 		return (false);
 	token->type = 0;
 	get_token_str(token, str);
@@ -54,7 +54,7 @@ bool	create_token_lst(t_data *data, char *str)
 	{
 		skip_space(&str);
 		if (add_token(data, &str))
-			get_type(get_last_token(data->begin));// check arg null
+			get_type(get_last_token(data->begin));
 		else
 		{
 			if (*str)
@@ -66,7 +66,7 @@ bool	create_token_lst(t_data *data, char *str)
 
 void	free_token_lst(t_data *data)
 {
-	t_token *token;
+	t_token	*token;
 
 	while (data->begin)
 	{

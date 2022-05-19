@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/05/18 15:21:44 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/18 19:32:52 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 bool	is_space(char c)
 {
-	if (c && (c == ' ' || c == '\n' || c == '\r' || c == '\f' || c == '\t' || c == '\v'))
+	if (c && (c == ' ' || c == '\n' || c == '\r' || c == '\f' || c == '\t' \
+	|| c == '\v'))
 		return (true);
 	return (false);
 }
 
 void	skip_space(char **line)
 {
-	char *str;
+	char	*str;
 
 	str = *line;
 	while (is_space(*str))

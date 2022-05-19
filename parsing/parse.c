@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/05/18 18:41:05 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/19 13:07:13 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	parse(t_data *data, char *str)
 {
-	char *str_parse;
+	char	*str_parse;
 
 	if (ft_strlen(str) == 0)
 		return (0);

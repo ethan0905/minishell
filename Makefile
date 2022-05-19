@@ -6,7 +6,7 @@
 #    By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 17:04:03 by esafar            #+#    #+#              #
-#    Updated: 2022/05/18 15:37:35 by achane-l         ###   ########.fr        #
+#    Updated: 2022/05/18 19:26:49 by achane-l         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ SRCS = ./main.c \
 	./exec_files/process.c \
 	./get_next_line/get_next_line.c \
 
-CC = cc
+CC = cc -g3
 R_FLAG = -lreadline
 FLAGS = -Wextra -Wall -Werror
 INCL = minishell.h

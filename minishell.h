@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 18:49:27 by esafar            #+#    #+#             */
-/*   Updated: 2022/05/18 15:34:13 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/19 19:05:02 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ char *expand_str(t_data *data, char *str);
 // get token str
 void	get_token_str(t_token *token, char **line);
 void	get_type(t_token *token);
+bool	quoting_gest(char c, bool *is_in_single_quote, bool *is_in_double_quote);
 //token lst
 bool	create_token_lst(t_data *data, char *str);
 void	free_token_lst(t_data *data);
