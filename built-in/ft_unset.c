@@ -6,11 +6,11 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/04/03 16:42:34 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 13:44:25 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "builtin.h"
 
 bool	is_not_a_var_name(char *str)
 {
@@ -23,22 +23,25 @@ bool	is_not_a_var_name(char *str)
 	return (true);
 }
 
+static void	erase_first_node(t_env *node_to_unset, t_data *data)
+{
+	node_to_unset = data->env;
+	data->env = data->env->next;
+	if (data->env)
+		data->env->prev = NULL;
+	free(node_to_unset->line);
+	free(node_to_unset);
+}
+
 void	reach_good_node(t_data *data, char *str)
 {
-	t_env *env;
-	t_env *node_to_unset;
-	
+	t_env	*env;
+	t_env	*node_to_unset;
+
 	env = data->env;
 	node_to_unset = NULL;
 	if (env && ft_strncmp(env->line, str, ft_strlen(str)) == 0)
-	{
-		node_to_unset = data->env;
-		data->env = data->env->next;
-		if (data->env)
-			data->env->prev = NULL;
-		free(node_to_unset->line);
-		free(node_to_unset);
-	}
+		erase_first_node(node_to_unset, data);
 	else
 	{
 		while (env)
@@ -51,12 +54,13 @@ void	reach_good_node(t_data *data, char *str)
 					env->next->prev = node_to_unset->prev;
 				free(node_to_unset->line);
 				free(node_to_unset);
-				break;
+				break ;
 			}
 			env = env->next;
 		}
 	}
 }
+//a voir juste la boucle
 
 int	ft_unset(t_data *data, char *str)
 {
@@ -64,6 +68,6 @@ int	ft_unset(t_data *data, char *str)
 		return (1);
 	reach_good_node(data, str);
 	free_tab_str(&data->test, -1);
-	data->test = convert_lst_to_tab(data); 
+	data->test = convert_lst_to_tab(data);
 	return (0);
 }

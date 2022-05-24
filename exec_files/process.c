@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:35:53 by achane-l          #+#    #+#             */
-/*   Updated: 2022/05/18 17:18:55 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 13:46:53 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,12 @@ void	child_process(t_data *data, t_cmd *cmd, int *fd)
 	{
 		redirect_in_out(cmd, fd);
 		execve(cmd->cmd_param[0], cmd->cmd_param, data->test);
-		//command_not_executable
+		print_error_command(cmd->cmd_param[0], 1);
 		data->exit_code = 126;
 	}
 	else
 	{
-		write (1, cmd->cmd_param[0], ft_strlen(cmd->cmd_param[0]));
-		write (1, ": command not found\n", 20);
+		print_error_command(cmd->cmd_param[0], 2);
 		data->exit_code = 127;
 	}
 	exit_process(data, fd);
@@ -103,10 +102,10 @@ void	wait_all_and_finish(t_data *data, t_cmd *cmds)
 	while (cmds)
 	{
 		pid = waitpid(0, &status, 0);
-		if (pid == data->signal.pid)
+		if (pid == g_signal.pid)
 		{
 			if (WIFEXITED(status))
-				data->exit_code = WEXITSTATUS(status); //il faut l'exit code de la derniere commande
+				data->exit_code = WEXITSTATUS(status);
 		}
 		if (cmds->outfile >= 0)
 			close(cmds->outfile);

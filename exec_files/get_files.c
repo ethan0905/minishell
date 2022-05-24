@@ -6,42 +6,11 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 14:17:54 by achane-l          #+#    #+#             */
-/*   Updated: 2022/05/17 19:11:08 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/23 17:43:21 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./exec_files.h"
-
-int	here_doc(t_data *data,char *word)
-{
-	char	*buf;
-	char	*tmp;
-	int		fd;
-
-	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd < 0)
-		return (-1);
-	while (1)
-	{
-		tmp = NULL;
-		write(1, "> ", 2);
-		if (get_next_line(0, &buf) < 0)
-			exit(0);
-		if (!ft_strncmp(word, buf, ft_strlen(word) + 1))
-			break ;
-		tmp = expand_str(data, buf);
-		write(fd, tmp, ft_strlen(tmp));
-		write(fd, "\n", 1);
-		free(buf);
-		free(tmp);
-	}
-	free(buf);
-	close(fd);
-	fd = open(".heredoc_tmp", O_RDONLY);
-	if (fd < 0)
-		unlink(".heredoc_tmp");
-	return (fd);
-}
 
 int	open_file(t_data *data, char *filename, int type)
 {
@@ -109,7 +78,7 @@ int	get_outfile(t_token *token)
 		{
 			if (fd >= 0)
 				close(fd);
-			fd = open_file(NULL,token->next->str, APPEND);
+			fd = open_file(NULL, token->next->str, APPEND);
 			if (fd == -1)
 				return (-1);
 		}

@@ -6,18 +6,19 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/05/18 15:17:32 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 01:46:56 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../utils/utils.h"
 
 static int	get_len_of_env_var(char *env)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(env[i] && env[i] != '=')
+	while (env[i] && env[i] != '=')
 		i++;
 	return (i);
 }
@@ -25,13 +26,14 @@ static int	get_len_of_env_var(char *env)
 char	*my_getenv(t_data *data, char *expand_to_search)
 {
 	int	i;
-	int expand_len;
+	int	expand_len;
 
 	i = 0;
 	expand_len = ft_strlen(expand_to_search);
 	while (data->test[i])
 	{
-		if (ft_strncmp(expand_to_search, data->test[i], expand_len) == 0 && get_len_of_env_var(data->test[i]) == expand_len)
+		if (ft_strncmp(expand_to_search, data->test[i], expand_len) == 0 && \
+		get_len_of_env_var(data->test[i]) == expand_len)
 			return (ft_strdup(data->test[i] + ft_strlen(expand_to_search) + 1));
 		i++;
 	}
@@ -43,9 +45,8 @@ int	check_unclosed_quote(char *str)
 	int		i;
 	bool	is_in_single_quote;
 	bool	is_in_double_quote;
-	
-	i = 0;
 
+	i = 0;
 	is_in_single_quote = false;
 	is_in_double_quote = false;
 	while (str[i])
@@ -67,8 +68,8 @@ int	check_unclosed_quote(char *str)
 
 void	add_char(char **actual, char c)
 {
-	int i;
-	char *dest;
+	int		i;
+	char	*dest;
 
 	dest = (char *)malloc(sizeof(char) * (ft_strlen(*actual) + 2));
 	if (!dest)

@@ -6,17 +6,11 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 09:04:02 by esafar            #+#    #+#             */
-/*   Updated: 2022/03/15 11:02:04 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/23 17:36:02 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-static int	fml(char *str)
-{
-	free(str);
-	return (-1);
-}
 
 static int	ft_isnewline(char *s)
 {
@@ -43,7 +37,7 @@ static char	*after_newline(char *save)
 	i = 0;
 	while (save[i] != '\0' && save[i] != '\n')
 		i++;
-	if (save[i] == '\0')
+	if (save[i] == '\0' || ft_strlen(save) - i <= 1)
 	{
 		free(save);
 		return (NULL);
@@ -83,24 +77,25 @@ static char	*get_line(char *save)
 int	get_next_line(int fd, char **line)
 {
 	int			ret;
-	char		*buff;
+	char		buff[BUFFER_SIZE + 1];
+	char		*tmp;
 	static char	*save;
 
 	if (fd < 0 || BUFFER_SIZE < 0 || !line || read(fd, "", 0) == -1)
 		return (-1);
 	if (!save)
 		save = ft_strdup("");
-	buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	ret = 1;
 	while (ft_isnewline(save) == 0 && ret != 0)
 	{
 		ret = read(fd, buff, BUFFER_SIZE);
 		if (ret == -1)
-			return (fml(buff));
+			return (-1);
 		buff[ret] = '\0';
+		tmp = save;
 		save = ft_strjoin(save, buff);
+		free(tmp);
 	}
-	free(buff);
 	*line = get_line(save);
 	save = after_newline(save);
 	if (ret == 0)
