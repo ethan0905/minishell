@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/05/24 13:37:05 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 16:01:12 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static void	init_data(t_data *data, char **env)
 	g_signal.heredoc = false;
 	signal(SIGINT, &control_c);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGSEGV, &sig_seg);
+	signal(SIGABRT, &sig_sbrt);
 }
 
 static void	loop(t_data *data)

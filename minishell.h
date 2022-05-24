@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 18:49:27 by esafar            #+#    #+#             */
-/*   Updated: 2022/05/24 13:35:15 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 16:02:03 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	add_char(char **actual, char c);
 int		parse(t_data *data, char *str);
 //signal
 void	control_c(int code);
+void	sig_seg(int code);
+void	sig_sbrt(int code);
 //special char utils
 bool	is_space(char c);
 void	skip_space(char **str);
