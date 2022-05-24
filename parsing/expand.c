@@ -6,11 +6,12 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 18:13:06 by achane-l          #+#    #+#             */
-/*   Updated: 2022/05/19 19:02:53 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 01:48:14 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"../minishell.h"
+#include "../utils/utils.h"
 
 static char	*get_expand_to_search(char **line)
 {

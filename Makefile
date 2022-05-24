@@ -6,7 +6,7 @@
 #    By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 17:04:03 by esafar            #+#    #+#              #
-#    Updated: 2022/05/18 19:26:49 by achane-l         ###   ########.fr        #
+#    Updated: 2022/05/23 16:14:34 by achane-l         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ SRCS = ./main.c \
 	./parsing/token_list.c \
 	./parsing/signal.c \
 	./parsing/expand.c\
-	./expand/expand.c \
 	./utils/ft_strlen.c \
 	./utils/ft_strcmp.c \
 	./utils/ft_strncmp.c \
@@ -44,6 +43,7 @@ SRCS = ./main.c \
 	./exec_files/init_cmds.c \
 	./exec_files/paths.c \
 	./exec_files/process.c \
+	./exec_files/utils_exec.c \
 	./get_next_line/get_next_line.c \
 
 CC = cc -g3

@@ -6,11 +6,12 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:27:08 by achane-l          #+#    #+#             */
-/*   Updated: 2022/05/18 19:28:44 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 01:49:56 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "./utils.h"
+#include "../built-in/builtin.h"
 
 int	ft_lstlen(t_env *lst)
 {

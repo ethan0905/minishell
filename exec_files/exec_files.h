@@ -6,16 +6,18 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 11:58:21 by achane-l          #+#    #+#             */
-/*   Updated: 2022/05/17 19:08:33 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 01:56:05 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_FILES_H
 # define EXEC_FILES_H
-# include "../minishell.h"
-# include <unistd.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include "../minishell.h"
+# include "../utils/utils.h"
+# include "../get_next_line/get_next_line.h"
+# include "../built-in/builtin.h"
 
 typedef struct s_cmd
 {
@@ -26,11 +28,14 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
+//utils_exec.c
+int		here_doc(t_data *data, char *word);
+void	print_error_command(char *cmd_name, int error_type);
+void	select_and_exec(int save_stdout, t_data *data, t_cmd *cmd);
 //get_cmds.c
 int		count_arg_in_command(t_token *token);
 char	**get_cmd(t_token *token);
 // get_file.c
-int		here_doc(t_data *data, char *word);
 int		open_file(t_data *data, char *filename, int type);
 int		get_infile(t_data *data, t_token *token);
 int		get_outfile(t_token *token);

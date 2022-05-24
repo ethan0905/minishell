@@ -6,11 +6,12 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 19:10:57 by achane-l          #+#    #+#             */
-/*   Updated: 2022/05/19 19:12:34 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 01:47:34 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../utils/utils.h"
 
 bool	quoting_gest(char c, bool *is_in_single_quote, bool *is_in_double_quote)
 {

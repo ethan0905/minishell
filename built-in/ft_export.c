@@ -6,11 +6,11 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/05/18 15:38:26 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/23 15:50:30 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "builtin.h"
 
 void	add_env_line(t_env *env, t_env *new)
 {
@@ -21,7 +21,7 @@ void	add_env_line(t_env *env, t_env *new)
 	env->next = new;
 }
 
-static void    get_string(char **dest, char *str)
+static void	get_string(char **dest, char *str)
 {
 	int		i;
 	bool	is_in_single_quote;
@@ -39,21 +39,19 @@ static void    get_string(char **dest, char *str)
 		else if (str[i] == '\'' && is_in_single_quote && !is_in_double_quote)
 			is_in_single_quote = false;
 		else if (str[i] == '\"' && is_in_double_quote && !is_in_single_quote)
-			is_in_double_quote = false;	
+			is_in_double_quote = false;
 		else
 			add_char(dest, str[i]);
-        i++;
-    }
+		i++;
+	}
 }
 
-char *get_syntax(char *str)
+char	*get_syntax(char *str)
 {
-	int i;
-	char *dest;
-
+	int		i;
+	char	*dest;
 
 	dest = NULL;
-
 	i = 0;
 	while (str[i] && str[i] != '=')
 		add_char(&dest, str[i++]);
@@ -64,13 +62,13 @@ char *get_syntax(char *str)
 		free(dest);
 		return (0);
 	}
-    get_string(&dest, &str[i]);
+	get_string(&dest, &str[i]);
 	return (dest);
 }
 
 int	env_line_already_exist(t_data *data, t_env *new)
 {
-	t_env *head;
+	t_env	*head;
 	int		len;
 
 	len = 0;
@@ -97,7 +95,7 @@ int	env_line_already_exist(t_data *data, t_env *new)
 int	ft_export(t_data *data, char *str)
 {
 	t_env	*new;
-	char *new_str;
+	char	*new_str;
 
 	new_str = get_syntax(str);
 	if (!new_str)

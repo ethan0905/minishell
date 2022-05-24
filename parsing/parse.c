@@ -6,11 +6,12 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/05/19 13:07:13 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 01:47:19 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../utils/utils.h"
 
 int	parse(t_data *data, char *str)
 {

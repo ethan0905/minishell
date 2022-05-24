@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 19:13:18 by achane-l          #+#    #+#             */
-/*   Updated: 2022/05/17 19:02:23 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/23 14:39:33 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	add_cmd(t_cmd *lst_cmd, t_cmd *new_cmd)
 	lst_cmd->next = new_cmd;
 }
 
-t_cmd	*init_cmds(t_data *data,t_token *token)
+t_cmd	*init_cmds(t_data *data, t_token *token)
 {
 	t_cmd	*lst_cmd;
 	t_cmd	*new_cmd;
