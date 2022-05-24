@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 16:22:27 by achane-l          #+#    #+#             */
-/*   Updated: 2022/05/24 02:56:48 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 13:00:52 by esafar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ void	launch_built_in(t_data *data, t_cmd *cmd)
 
 void	launch_cmd(t_data *data, t_cmd *cmd, int *fd)
 {
-	data->signal.pid = fork();
-	if (data->signal.pid < 0)
+	g_signal.pid = fork();
+	if (g_signal.pid < 0)
 		return ;
-	else if (data->signal.pid == 0)
+	else if (g_signal.pid == 0)
 	{
 		if (cmd->cmd_param[0])
 			child_process(data, cmd, fd);

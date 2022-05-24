@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 18:49:27 by esafar            #+#    #+#             */
-/*   Updated: 2022/05/24 02:57:11 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 13:30:49 by esafar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,7 @@ bool	is_space(char c);
 void	skip_space(char **str);
 bool	is_special_char(char *str);
 char	*get_special_char(char **str);
+
+extern t_signal	g_signal;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/05/24 12:45:11 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 13:31:07 by esafar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 #include "utils/utils.h"
 #include "exec_files/exec_files.h"
 
+t_signal	g_signal;
+
 static void	init_data(t_data *data, char **env)
 {
 	data->envp = env;
 	data->env = create_env(data->envp);
 	data->test = convert_lst_to_tab(data);
 	data->exit_code = 42;
-	data->signal.pid = 42;
+	g_signal.pid = 42;
 	signal(SIGINT, &control_c);
 	signal(SIGQUIT, SIG_IGN);
 }
