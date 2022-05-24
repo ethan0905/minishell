@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:07:13 by achane-l          #+#    #+#             */
-/*   Updated: 2022/05/23 18:10:23 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 13:37:01 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ int	here_doc(t_data *data, char *word)
 	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		return (-1);
+	g_signal.heredoc = true;
 	read_in_stdin(data, fd, word);
+	g_signal.heredoc = false;
 	fd = open(".heredoc_tmp", O_RDONLY);
 	if (fd < 0)
 		unlink(".heredoc_tmp");

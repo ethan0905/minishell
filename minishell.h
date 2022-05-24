@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 18:49:27 by esafar            #+#    #+#             */
-/*   Updated: 2022/05/24 13:30:49 by esafar           ###   ########.fr       */
+/*   Updated: 2022/05/24 13:35:15 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_token
 
 typedef struct s_signal
 {
+	bool	heredoc;
 	pid_t	pid;
 }			t_signal;
 

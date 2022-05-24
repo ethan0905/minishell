@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:35:53 by achane-l          #+#    #+#             */
-/*   Updated: 2022/05/23 17:42:51 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 13:46:53 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	wait_all_and_finish(t_data *data, t_cmd *cmds)
 	while (cmds)
 	{
 		pid = waitpid(0, &status, 0);
-		if (pid == data->signal.pid)
+		if (pid == g_signal.pid)
 		{
 			if (WIFEXITED(status))
 				data->exit_code = WEXITSTATUS(status);

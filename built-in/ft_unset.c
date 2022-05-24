@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/05/24 12:32:23 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 13:44:25 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@ bool	is_not_a_var_name(char *str)
 	return (true);
 }
 
+static void	erase_first_node(t_env *node_to_unset, t_data *data)
+{
+	node_to_unset = data->env;
+	data->env = data->env->next;
+	if (data->env)
+		data->env->prev = NULL;
+	free(node_to_unset->line);
+	free(node_to_unset);
+}
+
 void	reach_good_node(t_data *data, char *str)
 {
 	t_env	*env;
@@ -31,14 +41,7 @@ void	reach_good_node(t_data *data, char *str)
 	env = data->env;
 	node_to_unset = NULL;
 	if (env && ft_strncmp(env->line, str, ft_strlen(str)) == 0)
-	{
-		node_to_unset = data->env;
-		data->env = data->env->next;
-		if (data->env)
-			data->env->prev = NULL;
-		free(node_to_unset->line);
-		free(node_to_unset);
-	}
+		erase_first_node(node_to_unset, data);
 	else
 	{
 		while (env)
