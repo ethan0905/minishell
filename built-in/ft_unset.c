@@ -6,7 +6,7 @@
 /*   By: achane-l <achane-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:23:19 by esafar            #+#    #+#             */
-/*   Updated: 2022/05/24 13:44:25 by achane-l         ###   ########.fr       */
+/*   Updated: 2022/05/24 13:59:32 by achane-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	reach_good_node(t_data *data, char *str)
 		}
 	}
 }
-//a voir juste la boucle
 
 int	ft_unset(t_data *data, char *str)
 {
