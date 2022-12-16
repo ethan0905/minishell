@@ -44,3 +44,6 @@
   
 Special thanks to vietdu91 aka emtran, for his on work on that 900 lines test spreadsheet! You can go [here](https://github.com/vietdu91/42_minishell) an leave a star for the work.  
 https://docs.google.com/spreadsheets/d/1uJHQu0VPsjjBkR4hxOeCMEt3AOM1Hp_SmUzPFhAH-nA/edit#gid=0  
+
+### bash bible:
+https://www.gnu.org/software/bash/manual/bash.html  
