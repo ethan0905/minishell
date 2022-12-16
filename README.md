@@ -16,3 +16,6 @@
 4. Enjoy ;) 
 
 ## 📄 Documentation
+  
+Special thanks to [vietdu91](https://github.com/vietdu91) aka emtran, for his on work on that test spreadsheet!  
+https://docs.google.com/spreadsheets/d/1uJHQu0VPsjjBkR4hxOeCMEt3AOM1Hp_SmUzPFhAH-nA/edit#gid=0  
